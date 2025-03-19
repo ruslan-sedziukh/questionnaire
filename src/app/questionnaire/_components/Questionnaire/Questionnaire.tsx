@@ -9,14 +9,27 @@ type Props = {
 }
 
 const Questionnaire = ({ config }: Props) => {
-  const [currentScreen, setScreen] = useState(config.branch.index.questions[0])
+  const [branch, setBranch] = useState(config.branch.index)
+  const [questionIndex, setQuestionIndex] = useState(0)
 
   const handleAnswer = (question: Question, value: string) => {
     // TODO: Add answer to the store
+
     // Set next screen
+    if (question.next) {
+      setBranch(config.branch[question.next[value]])
+      setQuestionIndex(0)
+    } else if (branch.questions[questionIndex + 1]) {
+      setQuestionIndex((prev) => prev + 1)
+    }
   }
 
-  return <Screen question={currentScreen} />
+  return (
+    <Screen
+      question={branch.questions[questionIndex]}
+      onAnswer={handleAnswer}
+    />
+  )
 }
 
 export default Questionnaire
