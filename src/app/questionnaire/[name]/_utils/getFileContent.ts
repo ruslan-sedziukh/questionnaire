@@ -2,7 +2,12 @@ import fs from 'fs/promises'
 import path from 'path'
 
 async function readTestFile(questionnaire: string): Promise<string | null> {
-  const filePath = path.join(`public/questionnaires/${questionnaire}`)
+  const filePath = path.join(
+    process.cwd(),
+    'public',
+    'questionnaires',
+    questionnaire
+  )
 
   try {
     const fileContent = await fs.readFile(filePath, 'utf8')

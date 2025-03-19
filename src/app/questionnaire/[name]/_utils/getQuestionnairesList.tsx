@@ -2,7 +2,11 @@ import fs from 'fs/promises'
 import path from 'path'
 
 export async function getQuestionnaireFiles(): Promise<string[]> {
-  const questionnairesPath = 'public/questionnaires'
+  const questionnairesPath = path.join(
+    process.cwd(),
+    'public',
+    'questionnaires'
+  )
 
   try {
     const files = await fs.readdir(questionnairesPath)
