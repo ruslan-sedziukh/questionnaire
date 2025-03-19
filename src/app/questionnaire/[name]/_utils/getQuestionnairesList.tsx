@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 
-export async function getQuestionnaireFiles(): Promise<string[]> {
+export const getQuestionnaireList = async (): Promise<string[]> => {
   const questionnairesPath = path.join(
     process.cwd(),
     'public',
@@ -19,7 +19,9 @@ export async function getQuestionnaireFiles(): Promise<string[]> {
       return stats.isFile()
     })
 
-    return fileList
+    const fileListWithoutExtension = fileList.map((file) => file.split('.')[0])
+
+    return fileListWithoutExtension
   } catch (error) {
     console.error('Error reading questionnaire files:', error)
 

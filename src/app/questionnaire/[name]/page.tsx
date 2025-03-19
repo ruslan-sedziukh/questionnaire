@@ -1,9 +1,9 @@
 import Questionnaire from '../_components/Questionnaire'
-import { getFileContent } from './_utils/getFileContent'
-import { getQuestionnaireFiles } from './_utils/getQuestionnairesList'
+import { getConfig } from './_utils/getConfig'
+import { getQuestionnaireList } from './_utils/getQuestionnairesList'
 
 export async function generateStaticParams() {
-  const questionnaires = await getQuestionnaireFiles()
+  const questionnaires = await getQuestionnaireList()
 
   const params = questionnaires.map((questionnaire) => ({
     name: questionnaire,
@@ -12,13 +12,15 @@ export async function generateStaticParams() {
   return params
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ name: string }>
-}) {
+const Page = async ({ params }: { params: Promise<{ name: string }> }) => {
   const { name } = await params
-  const fileContent = await getFileContent(name)
+  const fileContent = await getConfig(name)
 
-  return <Questionnaire config={fileContent} />
+  const error = <div>Error</div>
+
+  const content = fileContent ? <Questionnaire config={fileContent} /> : error
+
+  return content
 }
+
+export default Page
