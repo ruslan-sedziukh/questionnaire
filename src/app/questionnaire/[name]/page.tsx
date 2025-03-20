@@ -16,11 +16,7 @@ const Page = async ({ params }: { params: Promise<{ name: string }> }) => {
   const { name } = await params
   const fileContent = await getConfig(name)
 
-  const error = <div>Error</div>
-
-  const content = fileContent ? <Questionnaire config={fileContent} /> : error
-
-  return content
+  return fileContent ? <Questionnaire config={fileContent} /> : <div>Error</div>
 }
 
 export default Page
