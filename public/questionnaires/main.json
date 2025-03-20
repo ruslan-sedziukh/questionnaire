@@ -1,0 +1,53 @@
+{
+  "name": "main",
+  "branch": {
+    "index": {
+      "questions": [
+        {
+          "field": "gender",
+          "text": "Select your gender:",
+          "options": [
+            { "value": "female", "label": "Female" },
+            { "value": "male", "label": "Male" }
+          ]
+        },
+        {
+          "field": "relationshipStatus",
+          "text": "So we can get to know you better, tell us about your relationship status.",
+          "options": [
+            { "value": "single", "label": "Single" },
+            { "value": "inRelationship", "label": "In a relationship" }
+          ],
+          "next": {
+            "single": "single",
+            "inRelationship": "inRelationship"
+          }
+        }
+      ]
+    },
+    "single": {
+      "questions": [
+        {
+          "field": "parentStatus",
+          "text": "Are you a single parent?",
+          "options": [
+            { "value": "parent", "label": "Yes" },
+            { "value": "notParent", "label": "No" }
+          ]
+        }
+      ]
+    },
+    "inRelationship": {
+      "questions": [
+        {
+          "field": "parentStatus",
+          "text": "Are you a parent?",
+          "options": [
+            { "value": "parent", "label": "Yes" },
+            { "value": "notParent", "label": "No" }
+          ]
+        }
+      ]
+    }
+  }
+}
