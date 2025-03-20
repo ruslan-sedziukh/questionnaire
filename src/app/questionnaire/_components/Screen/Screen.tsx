@@ -1,22 +1,29 @@
+import { QuestionnaireData } from '@/redux/questionnaireSlice'
 import { Question } from '@/types/questionnaire'
+import { getTextWithDynamicValues } from '@/utils/getTextWithDynamicValues'
 
 type Props = {
   question: Question
   onAnswer: (question: Question, value: string) => void
+  questionnaireData: QuestionnaireData
 }
 
-const Screen = ({ question, onAnswer }: Props) => {
+const Screen = ({
+  question,
+  onAnswer,
+  questionnaireData: questionnaireData,
+}: Props) => {
   return (
-    <div className="flex items-center font-[Open_Sans] flex-col gap-5 bg-[#FFF0F0] min-h-lvh p-4 min-w-fit">
+    <div className="flex items-center font-open-sans flex-col gap-5 bg-[#FFF0F0] min-h-lvh p-4 min-w-fit">
       <h1 className="inline font-bold text-2xl leading-7 w-[330px]">
-        {question.text}
+        {getTextWithDynamicValues(question.text, questionnaireData)}
       </h1>
 
       <div className="flex flex-col gap-5 w-[330px]">
         {question.options.map((option) => (
           <button
             className="
-              py-3 px-5 rounded-2xl h-16 text-base font-normal cursor-pointer 
+              py-3 px-5 rounded-2xl h-16 text-sm font-normal cursor-pointer
              bg-[#EAEEF7] border-[1px] border-[#E0E0E0] shadow-[2px_2px_6px_#543C9740] 
               active:bg-linear-[180deg,#202261_15%,#543C97_50%,#6939A1] active:text-[#FBFBFF]
             "
