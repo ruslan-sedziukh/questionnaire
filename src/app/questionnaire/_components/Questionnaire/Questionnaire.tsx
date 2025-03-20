@@ -32,6 +32,7 @@ const Questionnaire = ({ config }: Props) => {
     <Screen
       question={branch.questions[questionIndex]}
       onAnswer={handleAnswer}
+      name={name}
     />
   )
 }

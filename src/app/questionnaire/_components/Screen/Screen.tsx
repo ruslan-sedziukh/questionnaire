@@ -1,11 +1,16 @@
+import { RootState } from '@/redux/store'
 import { Question } from '@/types/questionnaire'
+import { useSelector } from 'react-redux'
 
 type Props = {
   question: Question
   onAnswer: (question: Question, value: string) => void
+  name: string
 }
 
-const Screen = ({ question, onAnswer }: Props) => {
+const Screen = ({ question, onAnswer, name }: Props) => {
+  const data = useSelector((state: RootState) => state.questionnaire[name])
+
   return (
     <div className="flex items-center font-[Open_Sans] flex-col gap-5 bg-[#FFF0F0] min-h-lvh p-4 min-w-fit">
       <h1 className="inline font-bold text-2xl leading-7 w-[330px]">
