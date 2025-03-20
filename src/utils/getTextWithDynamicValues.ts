@@ -52,7 +52,12 @@ export const getTextWithDynamicValues = (
     })
   }
 
-  return replacedText
+  const replacedTextWithoutDuplicatedSpaces = replacedText.replace(
+    / +(?= )/g,
+    ''
+  )
+
+  return replacedTextWithoutDuplicatedSpaces
 }
 
 const capitalizeFirstLetter = (str: string) => {
