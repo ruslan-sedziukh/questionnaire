@@ -26,6 +26,7 @@
       ]
     },
     "single": {
+      "prev": "index",
       "questions": [
         {
           "field": "parentStatus",
@@ -60,6 +61,7 @@
       ]
     },
     "inRelationship": {
+      "prev": "index",
       "questions": [
         {
           "field": "parentStatus",

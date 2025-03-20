@@ -13,11 +13,11 @@ export type Question = {
 }
 
 export type BranchItem = {
+  prev?: string
   questions: Question[]
 }
 
 export type Branch = {
-  index: BranchItem
   [key: string]: BranchItem
 }
 
