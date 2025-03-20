@@ -3,8 +3,9 @@
 import React, { useState } from 'react'
 import { Question, QuestionnaireConfig } from '@/types/questionnaire'
 import Screen from '../Screen'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateAnswer } from '@/redux/questionnaireSlice'
+import { RootState } from '@/redux/store'
 
 type Props = {
   config: QuestionnaireConfig
@@ -15,6 +16,9 @@ const Questionnaire = ({ config }: Props) => {
   const [branch, setBranch] = useState(config.branch.index)
   const [questionIndex, setQuestionIndex] = useState(0)
   const dispatch = useDispatch()
+  const questionnaireData = useSelector(
+    (state: RootState) => state.questionnaire[name]
+  )
 
   const handleAnswer = (question: Question, value: string) => {
     dispatch(updateAnswer({ name, field: question.field, value }))
@@ -32,7 +36,7 @@ const Questionnaire = ({ config }: Props) => {
     <Screen
       question={branch.questions[questionIndex]}
       onAnswer={handleAnswer}
-      name={name}
+      questionnaireData={questionnaireData}
     />
   )
 }

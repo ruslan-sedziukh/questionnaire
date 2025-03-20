@@ -31,13 +31,13 @@
           "field": "parentStatus",
           "text": "Are you a single parent?",
           "options": [
-            { "value": "parent", "label": "Yes" },
-            { "value": "notParent", "label": "No" }
+            { "value": "withChildren", "label": "Yes" },
+            { "value": "noChildren", "label": "No" }
           ]
         },
         {
           "field": "feelingInRelationship",
-          "text": "{Gender} {who have children (if have children)} need a slightly different approach to find their perfect partner. But first, how did you feel in your last relationship?",
+          "text": "{Gender} {parentStatus:withChildren=who have children} need a slightly different approach to find their perfect partner. But first, how did you feel in your last relationship?",
           "options": [
             {
               "value": "unhappyWithLowThings",

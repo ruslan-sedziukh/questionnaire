@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-type QuestionnaireState = {
-  [name: string]: {
-    [field: string]: string
-  }
+export type QuestionnaireData = {
+  [field: string]: string
+}
+
+export type QuestionnaireState = {
+  [name: string]: QuestionnaireData
 }
 
 const initialState: QuestionnaireState = {
