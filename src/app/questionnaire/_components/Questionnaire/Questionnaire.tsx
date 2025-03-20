@@ -3,17 +3,21 @@
 import React, { useState } from 'react'
 import { Question, QuestionnaireConfig } from '@/types/questionnaire'
 import Screen from '../Screen'
+import { useDispatch } from 'react-redux'
+import { updateAnswer } from '@/redux/questionnaireSlice'
 
 type Props = {
   config: QuestionnaireConfig
 }
 
 const Questionnaire = ({ config }: Props) => {
+  const { name } = config
   const [branch, setBranch] = useState(config.branch.index)
   const [questionIndex, setQuestionIndex] = useState(0)
+  const dispatch = useDispatch()
 
   const handleAnswer = (question: Question, value: string) => {
-    // TODO: Add answer to the store
+    dispatch(updateAnswer({ name, field: question.field, value }))
 
     // Set next screen
     if (question.next) {

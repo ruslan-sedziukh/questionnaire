@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 type QuestionnaireState = {
-  currentScreen: number
-  answers: { [questionId: string]: string }
+  [name: string]: {
+    [field: string]: string
+  }
 }
 
 const initialState: QuestionnaireState = {
-  currentScreen: 0,
-  answers: {},
+  questionnaire: {},
 }
 
 const questionnaireSlice = createSlice({
@@ -16,15 +16,16 @@ const questionnaireSlice = createSlice({
   reducers: {
     updateAnswer: (
       state,
-      action: PayloadAction<{ questionId: string; value: string }>
+      action: PayloadAction<{ name: string; field: string; value: string }>
     ) => {
-      state.answers[action.payload.questionId] = action.payload.value
-    },
-    nextScreen: (state) => {
-      state.currentScreen += 1
+      if (!state[action.payload.name]) {
+        state[action.payload.name] = {}
+      }
+
+      state[action.payload.name][action.payload.field] = action.payload.value
     },
   },
 })
 
-export const { updateAnswer, nextScreen } = questionnaireSlice.actions
+export const { updateAnswer } = questionnaireSlice.actions
 export default questionnaireSlice.reducer
