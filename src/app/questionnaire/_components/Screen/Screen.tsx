@@ -1,20 +1,40 @@
 import { QuestionnaireData } from '@/redux/questionnaireSlice'
 import { Question } from '@/types/questionnaire'
 import { getTextWithDynamicValues } from '@/utils/getTextWithDynamicValues'
+import Image from 'next/image'
 
 type Props = {
   question: Question
   onAnswer: (question: Question, value: string) => void
   questionnaireData: QuestionnaireData
+  onPreviousQuestion?: () => void
+  showPreviousButton: boolean
 }
 
 const Screen = ({
   question,
   onAnswer,
   questionnaireData: questionnaireData,
+  onPreviousQuestion,
+  showPreviousButton,
 }: Props) => {
   return (
     <div className="flex items-center font-open-sans flex-col gap-5 bg-[#FFF0F0] min-h-lvh p-4 min-w-fit">
+      <header className="relative flex justify-center w-full max-w-5xl">
+        {showPreviousButton && (
+          <Image
+            className="absolute left-0"
+            src="/chevron.svg"
+            width={24}
+            height={24}
+            alt="chevron"
+            onClick={onPreviousQuestion}
+          />
+        )}
+
+        <Image src="/logo_black.svg" width={24} height={24} alt="logo" />
+      </header>
+
       <h1 className="inline font-bold text-2xl leading-7 w-[330px]">
         {getTextWithDynamicValues(question.text, questionnaireData)}
       </h1>

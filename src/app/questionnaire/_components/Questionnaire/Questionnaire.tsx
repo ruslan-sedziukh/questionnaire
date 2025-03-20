@@ -32,11 +32,26 @@ const Questionnaire = ({ config }: Props) => {
     }
   }
 
+  const handlePreviousQuestion = () => {
+    const prevBranchName = branch.prev
+
+    if (questionIndex > -0) {
+      setQuestionIndex((prev) => prev - 1)
+    } else if (prevBranchName) {
+      const prevBranch = config.branch[prevBranchName]
+
+      setBranch(prevBranch)
+      setQuestionIndex(prevBranch.questions.length - 1)
+    }
+  }
+
   return (
     <Screen
       question={branch.questions[questionIndex]}
       onAnswer={handleAnswer}
       questionnaireData={questionnaireData}
+      onPreviousQuestion={handlePreviousQuestion}
+      showPreviousButton={questionIndex > 0 || !!branch.prev}
     />
   )
 }
