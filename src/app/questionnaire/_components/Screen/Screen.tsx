@@ -23,7 +23,7 @@ const Screen = ({
       <header className="relative flex justify-center w-full max-w-5xl">
         {showPreviousButton && (
           <Image
-            className="absolute left-0"
+            className="absolute left-0 cursor-pointer"
             src="/chevron.svg"
             width={24}
             height={24}
