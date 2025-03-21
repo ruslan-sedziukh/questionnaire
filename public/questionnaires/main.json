@@ -57,6 +57,20 @@
               "label": "I’ve never been in a relationship"
             }
           ]
+        },
+        {
+          "field": "tendToOverthink",
+          "text": "Do you tend to overthink?",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
         }
       ]
     },
