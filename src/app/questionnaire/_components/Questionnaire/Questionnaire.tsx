@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Question, QuestionnaireConfig } from '@/types/questionnaire'
+import { ScreenData, QuestionnaireConfig } from '@/types/questionnaire'
 import Screen from '../Screen'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateAnswer } from '@/redux/questionnaireSlice'
@@ -20,14 +20,14 @@ const Questionnaire = ({ config }: Props) => {
     (state: RootState) => state.questionnaire[name]
   )
 
-  const handleAnswer = (question: Question, value: string) => {
-    dispatch(updateAnswer({ name, field: question.field, value }))
+  const handleAnswer = (screenData: ScreenData, value: string) => {
+    dispatch(updateAnswer({ name, field: screenData.field, value }))
 
     // Set next screen
-    if (question.next) {
-      setBranch(config.branch[question.next[value]])
+    if (screenData.next) {
+      setBranch(config.branch[screenData.next[value]])
       setQuestionIndex(0)
-    } else if (branch.questions[questionIndex + 1]) {
+    } else if (branch.screens[questionIndex + 1]) {
       setQuestionIndex((prev) => prev + 1)
     }
   }
@@ -41,16 +41,16 @@ const Questionnaire = ({ config }: Props) => {
       const prevBranch = config.branch[prevBranchName]
 
       setBranch(prevBranch)
-      setQuestionIndex(prevBranch.questions.length - 1)
+      setQuestionIndex(prevBranch.screens.length - 1)
     }
   }
 
   return (
     <Screen
-      question={branch.questions[questionIndex]}
+      screenData={branch.screens[questionIndex]}
       onAnswer={handleAnswer}
       questionnaireData={questionnaireData}
-      onPreviousQuestion={handlePreviousQuestion}
+      onPreviousScreen={handlePreviousQuestion}
       showPreviousButton={questionIndex > 0 || !!branch.prev}
     />
   )

@@ -1,12 +1,12 @@
-export type QuestionOption = {
+export type Option = {
   value: string
   label: string
 }
 
-export type Question = {
+export type ScreenData = {
   field: string
   text: string
-  options: QuestionOption[]
+  options: Option[]
   next?: {
     [key: string]: string
   }
@@ -14,7 +14,7 @@ export type Question = {
 
 export type BranchItem = {
   prev?: string
-  questions: Question[]
+  screens: ScreenData[]
 }
 
 export type Branch = {

@@ -2,7 +2,7 @@
   "name": "main",
   "branch": {
     "index": {
-      "questions": [
+      "screens": [
         {
           "field": "gender",
           "text": "Select your gender:",
@@ -27,7 +27,7 @@
     },
     "single": {
       "prev": "index",
-      "questions": [
+      "screens": [
         {
           "field": "parentStatus",
           "text": "Are you a single parent?",
@@ -76,7 +76,7 @@
     },
     "inRelationship": {
       "prev": "index",
-      "questions": [
+      "screens": [
         {
           "field": "parentStatus",
           "text": "Are you a parent?",

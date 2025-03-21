@@ -1,21 +1,21 @@
 import { QuestionnaireData } from '@/redux/questionnaireSlice'
-import { Question } from '@/types/questionnaire'
+import { ScreenData } from '@/types/questionnaire'
 import { getTextWithDynamicValues } from '@/utils/getTextWithDynamicValues'
 import Image from 'next/image'
 
 type Props = {
-  question: Question
-  onAnswer: (question: Question, value: string) => void
+  screenData: ScreenData
+  onAnswer: (screenData: ScreenData, value: string) => void
   questionnaireData: QuestionnaireData
-  onPreviousQuestion?: () => void
+  onPreviousScreen?: () => void
   showPreviousButton: boolean
 }
 
 const Screen = ({
-  question,
+  screenData,
   onAnswer,
-  questionnaireData: questionnaireData,
-  onPreviousQuestion,
+  questionnaireData,
+  onPreviousScreen,
   showPreviousButton,
 }: Props) => {
   return (
@@ -28,7 +28,7 @@ const Screen = ({
             width={24}
             height={24}
             alt="chevron"
-            onClick={onPreviousQuestion}
+            onClick={onPreviousScreen}
           />
         )}
 
@@ -36,11 +36,11 @@ const Screen = ({
       </header>
 
       <h1 className="inline font-bold text-2xl leading-7 w-[330px]">
-        {getTextWithDynamicValues(question.text, questionnaireData)}
+        {getTextWithDynamicValues(screenData.text, questionnaireData)}
       </h1>
 
       <div className="flex flex-col gap-5 w-[330px]">
-        {question.options.map((option) => (
+        {screenData.options.map((option) => (
           <button
             className="
               py-3 px-5 rounded-2xl h-16 text-sm font-normal cursor-pointer
@@ -48,7 +48,7 @@ const Screen = ({
               active:bg-linear-[180deg,#202261_15%,#543C97_50%,#6939A1] active:text-[#FBFBFF]
             "
             key={option.value}
-            onClick={() => onAnswer(question, option.value)}
+            onClick={() => onAnswer(screenData, option.value)}
           >
             {option.label}
           </button>
