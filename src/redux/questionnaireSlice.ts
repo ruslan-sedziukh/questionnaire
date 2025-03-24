@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+export type QuestionnaireDataField = string | Date
+
 export type QuestionnaireData = {
-  [field: string]: string
+  [field: string]: QuestionnaireDataField
 }
 
 export type QuestionnaireState = {
-  [name: string]: QuestionnaireData
+  [questionnaireName: string]: QuestionnaireData
 }
 
 const initialState: QuestionnaireState = {
@@ -18,7 +20,11 @@ const questionnaireSlice = createSlice({
   reducers: {
     updateAnswer: (
       state,
-      action: PayloadAction<{ name: string; field: string; value: string }>
+      action: PayloadAction<{
+        name: string
+        field: string
+        value: QuestionnaireDataField
+      }>
     ) => {
       if (!state[action.payload.name]) {
         state[action.payload.name] = {}

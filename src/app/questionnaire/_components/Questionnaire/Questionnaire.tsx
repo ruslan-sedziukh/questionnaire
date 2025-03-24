@@ -8,7 +8,10 @@ import {
 } from '@/types/questionnaire'
 import Screen from '../Screen'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateAnswer } from '@/redux/questionnaireSlice'
+import {
+  QuestionnaireDataField,
+  updateAnswer,
+} from '@/redux/questionnaireSlice'
 import { RootState } from '@/redux/store'
 
 type Props = {
@@ -42,11 +45,16 @@ const Questionnaire = ({ config }: Props) => {
   const currentScreen = branch.screens[screenIndex]
 
   if (isQuestionScreen(currentScreen)) {
-    const handleAnswer = (screenData: QuestionScreen, value: string) => {
+    const handleAnswer = (
+      screenData: QuestionScreen,
+      value: QuestionnaireDataField
+    ) => {
       dispatch(updateAnswer({ name, field: screenData.field, value }))
 
-      if (screenData.next) {
-        setBranch(config.branch[screenData.next[value]])
+      const nextBranchName = getNextBranchName(screenData, value)
+
+      if (nextBranchName) {
+        setBranch(config.branch[nextBranchName])
         setScreenIndex(0)
       } else if (branch.screens[screenIndex + 1]) {
         setScreenIndex((prev) => prev + 1)
@@ -74,6 +82,21 @@ const Questionnaire = ({ config }: Props) => {
       showPreviousButton={screenIndex > 0 || !!branch.prev}
     />
   )
+}
+
+const getNextBranchName = (
+  screenData: QuestionScreen,
+  value: QuestionnaireDataField
+): string | undefined => {
+  const next = screenData.next
+
+  if (next && typeof next === 'object' && typeof value === 'string') {
+    return next[value]
+  } else if (typeof next === 'string') {
+    return next
+  }
+
+  return
 }
 
 export default Questionnaire

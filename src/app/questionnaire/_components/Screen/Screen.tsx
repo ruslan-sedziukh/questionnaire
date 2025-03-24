@@ -1,4 +1,7 @@
-import { QuestionnaireData } from '@/redux/questionnaireSlice'
+import {
+  QuestionnaireData,
+  QuestionnaireDataField,
+} from '@/redux/questionnaireSlice'
 import {
   InfoScreen,
   QuestionScreen,
@@ -12,7 +15,10 @@ type Props =
   | {
       screenType: QuestionScreenType
       screenData: QuestionScreen
-      onAnswer: (screenData: QuestionScreen, value: string) => void
+      onAnswer: (
+        screenData: QuestionScreen,
+        value: QuestionnaireDataField
+      ) => void
       questionnaireData: QuestionnaireData
       onPreviousScreen?: () => void
       showPreviousButton: boolean
