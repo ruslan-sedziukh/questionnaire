@@ -10,7 +10,7 @@ export enum ScreenType {
 
 type ScreenBasic<T extends ScreenType> = {
   screenType: T
-  next?: string
+  nextBranch?: string
 }
 
 type QuestionScreenBasic = {
@@ -20,7 +20,7 @@ type QuestionScreenBasic = {
 
 export type SelectOneScreen = {
   options: Option[]
-  next?: {
+  nextBranch?: {
     [optionValue: string]: string
   }
 } & ScreenBasic<ScreenType.SelectOne> &

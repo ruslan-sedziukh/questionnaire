@@ -73,6 +73,15 @@ const Questionnaire = ({ config }: Props) => {
     )
   }
 
+  const handleNext = () => {
+    if (currentScreen.nextBranch) {
+      setBranch(config.branch[currentScreen.nextBranch])
+      setScreenIndex(0)
+    } else {
+      setScreenIndex((prev) => prev + 1)
+    }
+  }
+
   return (
     <Screen
       screenType={currentScreen.screenType}
@@ -80,6 +89,7 @@ const Questionnaire = ({ config }: Props) => {
       questionnaireData={questionnaireData}
       onPreviousScreen={handlePreviousScreen}
       showPreviousButton={screenIndex > 0 || !!branch.prev}
+      onNext={handleNext}
     />
   )
 }
@@ -88,7 +98,7 @@ const getNextBranchName = (
   screenData: QuestionScreen,
   value: QuestionnaireDataField
 ): string | undefined => {
-  const next = screenData.next
+  const next = screenData.nextBranch
 
   if (next && typeof next === 'object' && typeof value === 'string') {
     return next[value]

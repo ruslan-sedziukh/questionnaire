@@ -20,7 +20,7 @@
             { "value": "single", "label": "Single" },
             { "value": "inRelationship", "label": "In a relationship" }
           ],
-          "next": {
+          "nextBranch": {
             "single": "single",
             "inRelationship": "inRelationship"
           }
@@ -59,21 +59,6 @@
             {
               "value": "neverBeenInRelationship",
               "label": "I’ve never been in a relationship"
-            }
-          ]
-        },
-        {
-          "screenType": "selectOne",
-          "field": "tendToOverthink",
-          "heading": "Do you tend to overthink?",
-          "options": [
-            {
-              "value": "yes",
-              "label": "Yes"
-            },
-            {
-              "value": "no",
-              "label": "No"
             }
           ]
         },
