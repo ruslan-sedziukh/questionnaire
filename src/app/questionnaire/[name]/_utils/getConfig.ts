@@ -1,32 +1,26 @@
 import { QuestionnaireConfig } from '@/types/questionnaire'
 import fs from 'fs/promises'
 import path from 'path'
+import { questionnairesPath } from './questionnairesPath'
 
-async function readJsonConfig(
-  name: string
-): Promise<QuestionnaireConfig | null> {
-  try {
-    const absolutePath = path.join(
-      process.cwd(),
-      'public',
-      'questionnaires',
-      `${name}.json`
-    )
-    const fileContent = await fs.readFile(absolutePath, 'utf8')
-    const jsonObject = JSON.parse(fileContent)
+async function getConfigFromJSON(name: string): Promise<QuestionnaireConfig> {
+  const absolutePath = path.join(questionnairesPath, `${name}.json`)
 
-    return jsonObject
-  } catch (error) {
-    console.error('Error reading or parsing JSON file:', error)
+  const jsonString = await fs.readFile(absolutePath, 'utf8')
 
-    return null
-  }
+  return JSON.parse(jsonString)
 }
 
 export const getConfig = async (
   questionnaire: string
 ): Promise<QuestionnaireConfig | null> => {
-  const fileContent = await readJsonConfig(questionnaire)
+  let config = null
 
-  return fileContent ?? null
+  try {
+    config = await getConfigFromJSON(questionnaire)
+  } catch (e) {
+    console.error(e)
+  }
+
+  return config
 }
