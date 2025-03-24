@@ -4,6 +4,7 @@
     "index": {
       "screens": [
         {
+          "screenType:": "selectOne",
           "field": "gender",
           "text": "Select your gender:",
           "options": [
@@ -12,6 +13,7 @@
           ]
         },
         {
+          "screenType:": "selectOne",
           "field": "relationshipStatus",
           "text": "So we can get to know you better, tell us about your relationship status.",
           "options": [
@@ -29,6 +31,7 @@
       "prev": "index",
       "screens": [
         {
+          "screenType:": "selectOne",
           "field": "parentStatus",
           "text": "Are you a single parent?",
           "options": [
@@ -37,6 +40,7 @@
           ]
         },
         {
+          "screenType:": "selectOne",
           "field": "feelingInRelationship",
           "text": "Single {gender} {parentStatus:withChildren=who have children} need a slightly different approach to find their perfect partner. But first, how did you feel in your last relationship?",
           "options": [
@@ -59,6 +63,7 @@
           ]
         },
         {
+          "screenType:": "selectOne",
           "field": "tendToOverthink",
           "text": "Do you tend to overthink?",
           "options": [
@@ -71,6 +76,26 @@
               "label": "No"
             }
           ]
+        },
+        {
+          "screenType:": "selectOne",
+          "field": "tendToOverthink",
+          "text": "Do you tend to overthink?",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "screenType:": "info",
+          "heading": "So how does it work?",
+          "text": "We analyze hundreds of data points to create your unique astrological blueprint. This is combined with AI to tailor-make your astrological insights, based on your answers. We’re going to change your relationship with astrology."
         }
       ]
     },
@@ -78,6 +103,7 @@
       "prev": "index",
       "screens": [
         {
+          "screenType:": "selectOne",
           "field": "parentStatus",
           "text": "Are you a parent?",
           "options": [
@@ -86,6 +112,7 @@
           ]
         },
         {
+          "screenType:": "selectOne",
           "field": "feelingInRelationship",
           "text": "{Gender} {parentStatus:withChildren=who have children} need a slightly different approach to improve their relationship. Which statement best describes you?",
           "options": [
