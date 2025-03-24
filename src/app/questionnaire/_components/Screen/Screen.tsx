@@ -60,10 +60,10 @@ const Screen = ({
           screenData.options.map((option) => (
             <button
               className="
-              py-3 px-5 rounded-2xl h-16 text-sm font-normal cursor-pointer
-             bg-[#EAEEF7] border-[1px] border-[#E0E0E0] shadow-[2px_2px_6px_#543C9740] 
-              active:bg-linear-[180deg,#202261_15%,#543C97_50%,#6939A1] active:text-[#FBFBFF]
-            "
+                py-3 px-5 rounded-2xl h-16 text-sm font-normal cursor-pointer
+              bg-[#EAEEF7] border-[1px] border-[#E0E0E0] shadow-[2px_2px_6px_#543C9740] 
+                active:bg-linear-[180deg,#202261_15%,#543C97_50%,#6939A1] active:text-[#FBFBFF]
+              "
               key={option.value}
               onClick={() => onAnswer(screenData, option.value)}
             >
