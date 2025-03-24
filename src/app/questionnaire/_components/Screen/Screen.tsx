@@ -9,9 +9,9 @@ import {
   ScreenType,
 } from '@/types/questionnaire'
 import { getTextWithDynamicValues } from '@/utils/getTextWithDynamicValues'
-import Image from 'next/image'
 import { twJoin } from 'tailwind-merge'
 import Button from './_components/Button'
+import Header from './_components/Header'
 
 type Props =
   | {
@@ -54,33 +54,11 @@ const Screen = ({
           : 'bg-[#FFF0F0] text-[#333333]'
       )}
     >
-      <header className="relative flex justify-center w-full max-w-5xl">
-        {showPreviousButton && (
-          <Image
-            className="absolute left-0 cursor-pointer"
-            src={
-              screenType === ScreenType.Info
-                ? '/chevron_white.svg'
-                : '/chevron_black.svg'
-            }
-            width={24}
-            height={24}
-            alt="chevron"
-            onClick={onPreviousScreen}
-          />
-        )}
-
-        <Image
-          src={
-            screenType === ScreenType.Info
-              ? '/logo_white.svg'
-              : '/logo_black.svg'
-          }
-          width={24}
-          height={24}
-          alt="logo"
-        />
-      </header>
+      <Header
+        screenType={screenType}
+        showPreviousButton={showPreviousButton}
+        onPreviousScreen={onPreviousScreen}
+      />
 
       <div className="flex items-center font-open-sans flex-col gap-5 w-[330px]">
         <h1
@@ -93,7 +71,7 @@ const Screen = ({
         </h1>
 
         {screenType === ScreenType.Info && (
-          <div className="text-[#FBFBFF] text-center text-sm font-light">
+          <div className="text-center text-sm font-light">
             {screenData.text}
           </div>
         )}
