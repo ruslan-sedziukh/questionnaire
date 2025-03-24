@@ -1,22 +1,20 @@
 import Questionnaire from '../_components/Questionnaire'
 import { getConfig } from './_utils/getConfig'
-import { getQuestionnaireList } from './_utils/getQuestionnairesList'
+import { getPreBuildPagesNames } from './_utils/getQuestionnairesList'
 
 export async function generateStaticParams() {
-  const questionnaires = await getQuestionnaireList()
+  const preBuildPageNames = await getPreBuildPagesNames()
 
-  const params = questionnaires.map((questionnaire) => ({
-    name: questionnaire,
-  }))
+  const paramsWithDynamicSegments = preBuildPageNames.map((name) => ({ name }))
 
-  return params
+  return paramsWithDynamicSegments
 }
 
 const Page = async ({ params }: { params: Promise<{ name: string }> }) => {
   const { name } = await params
-  const fileContent = await getConfig(name)
+  const config = await getConfig(name)
 
-  return fileContent ? <Questionnaire config={fileContent} /> : <div>Error</div>
+  return config ? <Questionnaire config={config} /> : <div>Error</div>
 }
 
 export default Page
