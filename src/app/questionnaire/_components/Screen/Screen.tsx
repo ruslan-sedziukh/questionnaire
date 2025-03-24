@@ -12,6 +12,7 @@ import { getTextWithDynamicValues } from '@/utils/getTextWithDynamicValues'
 import { twJoin } from 'tailwind-merge'
 import Button from './_components/Button'
 import Header from './_components/Header'
+import Answers from './_components/Answers'
 
 type Props =
   | {
@@ -77,23 +78,12 @@ const Screen = ({
         )}
 
         <div className="flex flex-col gap-5 w-full">
-          {screenType !== ScreenType.Info &&
-            screenData.options.map((option) => (
-              <Button
-                key={option.value}
-                type="option"
-                onClick={() => onAnswer(screenData, option.value)}
-              >
-                {option.label}
-              </Button>
-            ))}
-
-          {screenType === ScreenType.Info && (
-            <>
-              <Button type="next" onClick={onNext}>
-                Next
-              </Button>
-            </>
+          {screenType !== ScreenType.Info ? (
+            <Answers screenData={screenData} onAnswer={onAnswer} />
+          ) : (
+            <Button type="next" onClick={onNext}>
+              Next
+            </Button>
           )}
         </div>
       </div>
