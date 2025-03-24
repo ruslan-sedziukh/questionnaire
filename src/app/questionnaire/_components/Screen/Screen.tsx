@@ -11,6 +11,7 @@ import {
 import { getTextWithDynamicValues } from '@/utils/getTextWithDynamicValues'
 import Image from 'next/image'
 import { twJoin } from 'tailwind-merge'
+import Button from './_components/Button'
 
 type Props =
   | {
@@ -100,31 +101,20 @@ const Screen = ({
         <div className="flex flex-col gap-5 w-full">
           {screenType !== ScreenType.Info &&
             screenData.options.map((option) => (
-              <button
-                className="
-                  py-3 px-5 rounded-2xl h-16 text-sm font-normal cursor-pointer
-                bg-[#EAEEF7] border-[1px] border-[#E0E0E0] shadow-[2px_2px_6px_#543C9740]
-                  active:bg-linear-[180deg,#202261_15%,#543C97_50%,#6939A1] active:text-[#FBFBFF]
-                "
+              <Button
                 key={option.value}
+                type="option"
                 onClick={() => onAnswer(screenData, option.value)}
               >
                 {option.label}
-              </button>
+              </Button>
             ))}
 
           {screenType === ScreenType.Info && (
             <>
-              <button
-                className="
-                  py-3 px-5 rounded-2xl h-16 text-sm font-normal cursor-pointer
-                bg-[#FBFBFF] border-[1px] border-[#E0E0E0] shadow-[2px_2px_6px_#543C9740] text-[#6A3AA2]
-                  active:bg-linear-[180deg,#202261_15%,#543C97_50%,#6939A1] active:text-[#FBFBFF]
-                "
-                onClick={onNext}
-              >
+              <Button type="next" onClick={onNext}>
                 Next
-              </button>
+              </Button>
             </>
           )}
         </div>
