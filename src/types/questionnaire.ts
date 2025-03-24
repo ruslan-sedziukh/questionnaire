@@ -8,6 +8,8 @@ export enum ScreenType {
   SelectOne = 'selectOne',
 }
 
+export type QuestionScreenType = ScreenType.SelectOne
+
 type ScreenBasic<T extends ScreenType> = {
   screenType: T
   next?: {
@@ -15,11 +17,15 @@ type ScreenBasic<T extends ScreenType> = {
   }
 }
 
-export type SelectOneScreen = {
+type QuestionBasic = {
   field: string
   heading: string
+}
+
+export type SelectOneScreen = {
   options: Option[]
-} & ScreenBasic<ScreenType.SelectOne>
+} & ScreenBasic<ScreenType.SelectOne> &
+  QuestionBasic
 
 export type InfoScreen = {
   screenType: ScreenType.Info
@@ -27,7 +33,17 @@ export type InfoScreen = {
   text: string
 } & ScreenBasic<ScreenType.Info>
 
-export type Screen = SelectOneScreen | InfoScreen
+export type QuestionScreen = SelectOneScreen
+
+export const isQuestionScreen = (screen: Screen): screen is QuestionScreen => {
+  if (screen.screenType === ScreenType.SelectOne) {
+    return true
+  }
+
+  return false
+}
+
+export type Screen = QuestionScreen | InfoScreen
 
 export type BranchItem = {
   prev?: string
@@ -35,7 +51,7 @@ export type BranchItem = {
 }
 
 export type Branch = {
-  [key: string]: BranchItem
+  [name: string]: BranchItem
 }
 
 export type QuestionnaireConfig = {

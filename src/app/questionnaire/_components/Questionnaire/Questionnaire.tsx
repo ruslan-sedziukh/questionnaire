@@ -1,7 +1,11 @@
 'use client'
 
 import React, { useState } from 'react'
-import { ScreenData, QuestionnaireConfig } from '@/types/questionnaire'
+import {
+  QuestionnaireConfig,
+  QuestionScreen,
+  isQuestionScreen,
+} from '@/types/questionnaire'
 import Screen from '../Screen'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateAnswer } from '@/redux/questionnaireSlice'
@@ -13,45 +17,61 @@ type Props = {
 
 const Questionnaire = ({ config }: Props) => {
   const { name } = config
+
   const [branch, setBranch] = useState(config.branch.index)
-  const [questionIndex, setQuestionIndex] = useState(0)
+  const [screenIndex, setScreenIndex] = useState(0)
+
   const dispatch = useDispatch()
   const questionnaireData = useSelector(
     (state: RootState) => state.questionnaire[name]
   )
 
-  const handleAnswer = (screenData: ScreenData, value: string) => {
-    dispatch(updateAnswer({ name, field: screenData.field, value }))
-
-    // Set next screen
-    if (screenData.next) {
-      setBranch(config.branch[screenData.next[value]])
-      setQuestionIndex(0)
-    } else if (branch.screens[questionIndex + 1]) {
-      setQuestionIndex((prev) => prev + 1)
-    }
-  }
-
-  const handlePreviousQuestion = () => {
+  const handlePreviousScreen = () => {
     const prevBranchName = branch.prev
 
-    if (questionIndex > -0) {
-      setQuestionIndex((prev) => prev - 1)
+    if (screenIndex > -0) {
+      setScreenIndex((prev) => prev - 1)
     } else if (prevBranchName) {
       const prevBranch = config.branch[prevBranchName]
 
       setBranch(prevBranch)
-      setQuestionIndex(prevBranch.screens.length - 1)
+      setScreenIndex(prevBranch.screens.length - 1)
     }
+  }
+
+  const currentScreen = branch.screens[screenIndex]
+
+  if (isQuestionScreen(currentScreen)) {
+    const handleAnswer = (screenData: QuestionScreen, value: string) => {
+      dispatch(updateAnswer({ name, field: screenData.field, value }))
+
+      if (screenData.next) {
+        setBranch(config.branch[screenData.next[value]])
+        setScreenIndex(0)
+      } else if (branch.screens[screenIndex + 1]) {
+        setScreenIndex((prev) => prev + 1)
+      }
+    }
+
+    return (
+      <Screen
+        screenType={currentScreen.screenType}
+        screenData={currentScreen}
+        onAnswer={handleAnswer}
+        questionnaireData={questionnaireData}
+        onPreviousScreen={handlePreviousScreen}
+        showPreviousButton={screenIndex > 0 || !!branch.prev}
+      />
+    )
   }
 
   return (
     <Screen
-      screenData={branch.screens[questionIndex]}
-      onAnswer={handleAnswer}
+      screenType={currentScreen.screenType}
+      screenData={currentScreen}
       questionnaireData={questionnaireData}
-      onPreviousScreen={handlePreviousQuestion}
-      showPreviousButton={questionIndex > 0 || !!branch.prev}
+      onPreviousScreen={handlePreviousScreen}
+      showPreviousButton={screenIndex > 0 || !!branch.prev}
     />
   )
 }
