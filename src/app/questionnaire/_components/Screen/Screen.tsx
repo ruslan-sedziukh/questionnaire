@@ -46,6 +46,8 @@ const Screen = ({
   onPreviousScreen,
   showPreviousButton,
 }: Props) => {
+  const isInfoScreen = screenType === ScreenType.Info
+
   return (
     <div
       className={twJoin(
@@ -65,25 +67,25 @@ const Screen = ({
         <h1
           className={twJoin(
             'inline font-bold text-2xl leading-7',
-            screenType === ScreenType.Info && 'justify-center'
+            isInfoScreen && 'justify-center'
           )}
         >
           {getTextWithDynamicValues(screenData.heading, questionnaireData)}
         </h1>
 
-        {screenType === ScreenType.Info && (
+        {isInfoScreen && (
           <div className="text-center text-sm font-light">
             {screenData.text}
           </div>
         )}
 
         <div className="flex flex-col gap-5 w-full">
-          {screenType !== ScreenType.Info ? (
-            <Answers screenData={screenData} onAnswer={onAnswer} />
-          ) : (
+          {isInfoScreen ? (
             <Button type="next" onClick={onNext}>
               Next
             </Button>
+          ) : (
+            <Answers screenData={screenData} onAnswer={onAnswer} />
           )}
         </div>
       </div>
