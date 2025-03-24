@@ -14,28 +14,27 @@ import Button from './_components/Button'
 import Header from './_components/Header'
 import Answers from './_components/Answers'
 
-type Props =
-  | {
-      screenType: QuestionScreenType
-      screenData: QuestionScreen
-      onAnswer: (
-        screenData: QuestionScreen,
-        value: QuestionnaireDataField
-      ) => void
-      onNext?: undefined
-      questionnaireData: QuestionnaireData
-      onPreviousScreen?: () => void
-      showPreviousButton: boolean
-    }
-  | {
-      screenType: ScreenType.Info
-      screenData: InfoScreen
-      onPreviousScreen?: () => void
-      showPreviousButton: boolean
-      onAnswer?: undefined
-      onNext: () => void
-      questionnaireData: QuestionnaireData
-    }
+type QuestionScreenProps = {
+  screenType: QuestionScreenType
+  screenData: QuestionScreen
+  onAnswer: (screenData: QuestionScreen, value: QuestionnaireDataField) => void
+  onNext?: undefined
+  questionnaireData: QuestionnaireData
+  onPreviousScreen?: () => void
+  showPreviousButton: boolean
+}
+
+type InfoScreenProps = {
+  screenType: ScreenType.Info
+  screenData: InfoScreen
+  onPreviousScreen?: () => void
+  showPreviousButton: boolean
+  onAnswer?: undefined
+  onNext: () => void
+  questionnaireData: QuestionnaireData
+}
+
+type Props = QuestionScreenProps | InfoScreenProps
 
 const Screen = ({
   screenType,
@@ -52,7 +51,7 @@ const Screen = ({
     <div
       className={twJoin(
         'flex items-center font-open-sans flex-col gap-5  min-h-lvh p-4 min-w-fit',
-        screenType === ScreenType.Info
+        isInfoScreen
           ? 'bg-linear-[175deg,#202261_0%,#543C97_55%,#6939A1_70%] text-[#FBFBFF]'
           : 'bg-[#FFF0F0] text-[#333333]'
       )}
