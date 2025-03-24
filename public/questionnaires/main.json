@@ -6,7 +6,7 @@
         {
           "screenType:": "selectOne",
           "field": "gender",
-          "text": "Select your gender:",
+          "heading": "Select your gender:",
           "options": [
             { "value": "female", "label": "Female" },
             { "value": "male", "label": "Male" }
@@ -15,7 +15,7 @@
         {
           "screenType:": "selectOne",
           "field": "relationshipStatus",
-          "text": "So we can get to know you better, tell us about your relationship status.",
+          "heading": "So we can get to know you better, tell us about your relationship status.",
           "options": [
             { "value": "single", "label": "Single" },
             { "value": "inRelationship", "label": "In a relationship" }
@@ -33,7 +33,7 @@
         {
           "screenType:": "selectOne",
           "field": "parentStatus",
-          "text": "Are you a single parent?",
+          "heading": "Are you a single parent?",
           "options": [
             { "value": "withChildren", "label": "Yes" },
             { "value": "noChildren", "label": "No" }
@@ -42,7 +42,7 @@
         {
           "screenType:": "selectOne",
           "field": "feelingInRelationship",
-          "text": "Single {gender} {parentStatus:withChildren=who have children} need a slightly different approach to find their perfect partner. But first, how did you feel in your last relationship?",
+          "heading": "Single {gender} {parentStatus:withChildren=who have children} need a slightly different approach to find their perfect partner. But first, how did you feel in your last relationship?",
           "options": [
             {
               "value": "unhappyWithLowThings",
@@ -65,7 +65,7 @@
         {
           "screenType:": "selectOne",
           "field": "tendToOverthink",
-          "text": "Do you tend to overthink?",
+          "heading": "Do you tend to overthink?",
           "options": [
             {
               "value": "yes",
@@ -80,7 +80,7 @@
         {
           "screenType:": "selectOne",
           "field": "tendToOverthink",
-          "text": "Do you tend to overthink?",
+          "heading": "Do you tend to overthink?",
           "options": [
             {
               "value": "yes",
@@ -105,7 +105,7 @@
         {
           "screenType:": "selectOne",
           "field": "parentStatus",
-          "text": "Are you a parent?",
+          "heading": "Are you a parent?",
           "options": [
             { "value": "parent", "label": "Yes" },
             { "value": "notParent", "label": "No" }
@@ -114,7 +114,7 @@
         {
           "screenType:": "selectOne",
           "field": "feelingInRelationship",
-          "text": "{Gender} {parentStatus:withChildren=who have children} need a slightly different approach to improve their relationship. Which statement best describes you?",
+          "heading": "{Gender} {parentStatus:withChildren=who have children} need a slightly different approach to improve their relationship. Which statement best describes you?",
           "options": [
             {
               "value": "unhappyWithLowThings",

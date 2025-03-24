@@ -3,18 +3,35 @@ export type Option = {
   label: string
 }
 
-export type ScreenData = {
-  field: string
-  text: string
-  options: Option[]
+export enum ScreenType {
+  Info = 'info',
+  SelectOne = 'selectOne',
+}
+
+type ScreenBasic<T extends ScreenType> = {
+  screenType: T
   next?: {
-    [key: string]: string
+    [branchName: string]: string
   }
 }
 
+export type SelectOneScreen = {
+  field: string
+  heading: string
+  options: Option[]
+} & ScreenBasic<ScreenType.SelectOne>
+
+export type InfoScreen = {
+  screenType: ScreenType.Info
+  heading: string
+  text: string
+} & ScreenBasic<ScreenType.Info>
+
+export type Screen = SelectOneScreen | InfoScreen
+
 export type BranchItem = {
   prev?: string
-  screens: ScreenData[]
+  screens: Screen[]
 }
 
 export type Branch = {
