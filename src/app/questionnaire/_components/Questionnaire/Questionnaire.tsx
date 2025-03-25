@@ -23,8 +23,10 @@ type Props = {
 const Questionnaire = ({ config }: Props) => {
   const { name } = config
 
-  const [branch, setBranch] = useState(config.branch.index)
+  const [branchName, setBranchName] = useState('index')
   const [screenIndex, setScreenIndex] = useState(0)
+
+  const branch = config.branch[branchName]
 
   const dispatch = useDispatch()
   const questionnaireData = useSelector(
@@ -39,7 +41,7 @@ const Questionnaire = ({ config }: Props) => {
     } else if (prevBranchName) {
       const prevBranch = config.branch[prevBranchName]
 
-      setBranch(prevBranch)
+      setBranchName(prevBranchName)
       setScreenIndex(prevBranch.screens.length - 1)
     }
   }
@@ -56,12 +58,12 @@ const Questionnaire = ({ config }: Props) => {
       const nextBranchName = getNextBranchName(screenData, value)
 
       if (nextBranchName) {
-        setBranch(config.branch[nextBranchName])
+        setBranchName(nextBranchName)
         setScreenIndex(0)
       } else if (branch.screens[screenIndex + 1]) {
         setScreenIndex((prev) => prev + 1)
       } else {
-        handleNextScreenError(branch.name, screenIndex)
+        handleNextScreenError(branchName, screenIndex)
       }
     }
 
@@ -86,15 +88,15 @@ const Questionnaire = ({ config }: Props) => {
       const nextBranchName = getNextBranchName(screen, lastAnswer)
 
       if (nextBranchName) {
-        setBranch(config.branch[nextBranchName])
+        setBranchName(nextBranchName)
         setScreenIndex(0)
       } else {
-        handleNextScreenError(branch.name, screenIndex)
+        handleNextScreenError(branchName, screenIndex)
       }
     } else if (branch.screens[screenIndex + 1]) {
       setScreenIndex((prev) => prev + 1)
     } else {
-      handleNextScreenError(branch.name, screenIndex)
+      handleNextScreenError(branchName, screenIndex)
     }
   }
 
