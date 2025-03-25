@@ -15,11 +15,12 @@ type ScreenBasic<T extends ScreenType> = {
     | {
         [optionValue: string]: string
       }
+  heading: string
+  text: string
 }
 
 type QuestionScreenBasic = {
   field: string
-  heading: string
 }
 
 export type SelectOneScreen = {

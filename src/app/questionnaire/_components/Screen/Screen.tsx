@@ -50,7 +50,7 @@ const Screen = ({
   return (
     <div
       className={twJoin(
-        'flex items-center font-open-sans flex-col gap-5  min-h-lvh p-4 min-w-fit',
+        'flex items-center font-open-sans flex-col gap-5 min-h-lvh p-4 min-w-fit',
         isInfoScreen
           ? 'bg-linear-[175deg,#202261_0%,#543C97_55%,#6939A1_70%] text-[#FBFBFF]'
           : 'bg-[#FFF0F0] text-[#333333]'
@@ -66,14 +66,19 @@ const Screen = ({
         <h1
           className={twJoin(
             'inline font-bold text-2xl leading-7',
-            isInfoScreen && 'justify-center'
+            screenData.text && 'text-center'
           )}
         >
           {getTextWithDynamicValues(screenData.heading, questionnaireData)}
         </h1>
 
-        {isInfoScreen && (
-          <div className="text-center text-sm font-light">
+        {screenData.text && (
+          <div
+            className={twJoin(
+              'text-center',
+              isInfoScreen ? 'text-sm font-light' : 'text-lg font-bold'
+            )}
+          >
             {screenData.text}
           </div>
         )}

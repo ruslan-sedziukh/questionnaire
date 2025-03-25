@@ -5,7 +5,6 @@ import {
   QuestionnaireConfig,
   QuestionScreen,
   isQuestionScreen,
-  Screen as ScreenData,
 } from '@/types/questionnaire'
 import Screen from '../Screen'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,6 +14,7 @@ import {
 } from '@/redux/questionnaireSlice'
 import { RootState } from '@/redux/store'
 import { handleNextScreenError } from './_utils/handleNextScreenError'
+import { getNextBranchName } from './_utils/getNextBranchName'
 
 type Props = {
   config: QuestionnaireConfig
@@ -108,21 +108,6 @@ const Questionnaire = ({ config }: Props) => {
       onNext={handleNext}
     />
   )
-}
-
-const getNextBranchName = (
-  screenData: ScreenData,
-  value: QuestionnaireDataField
-): string | undefined => {
-  const next = screenData.nextBranch
-
-  if (next && typeof next === 'object' && typeof value === 'string') {
-    return next[value]
-  } else if (typeof next === 'string') {
-    return next
-  }
-
-  return
 }
 
 export default Questionnaire
