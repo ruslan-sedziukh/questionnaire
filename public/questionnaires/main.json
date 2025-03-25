@@ -80,7 +80,69 @@
         {
           "screenType": "info",
           "heading": "So how does it work?",
-          "text": "We analyze hundreds of data points to create your unique astrological blueprint. This is combined with AI to tailor-make your astrological insights, based on your answers. We’re going to change your relationship with astrology."
+          "text": "We analyze hundreds of data points to create your unique astrological blueprint. This is combined with AI to tailor-make your astrological insights, based on your answers. We’re going to change your relationship with astrology.",
+          "nextBranch": {
+            "yes": "overthinking",
+            "no": "notOverthinking"
+          }
+        }
+      ]
+    },
+    "overthinking": {
+      "prev": "single",
+      "screens": [
+        {
+          "screenType": "selectOne",
+          "field": "priority",
+          "heading": "What is important to you?",
+          "options": [
+            {
+              "value": "success",
+              "label": "Success"
+            },
+            {
+              "value": "romance",
+              "label": "Romance"
+            },
+            {
+              "value": "stability",
+              "label": "Stability"
+            },
+            {
+              "value": "freedom",
+              "label": "Freedom"
+            }
+          ],
+          "nextBranch": "final"
+        }
+      ]
+    },
+    "notOverthinking": {
+      "prev": "single",
+      "screens": [
+        {
+          "screenType": "selectOne",
+          "field": "trickyEmotionalControl",
+          "heading": "Is emotional control tricky for you?",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "sometimes",
+              "label": "Sometimes"
+            },
+            {
+              "value": "rarely",
+              "label": "Rarely"
+            },
+            {
+              "value": "no",
+              "label": "Not at all"
+            }
+          ],
+          "nextBranch": "final"
         }
       ]
     },
@@ -112,6 +174,163 @@
             {
               "value": "generallyHappy",
               "label": "I'm generally happy in my relationship"
+            }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "partnerIntrovertExtrovert",
+          "heading": "Is your partner introvert or extrovert?",
+          "options": [
+            {
+              "value": "introvert",
+              "label": "Introvert"
+            },
+            {
+              "value": "extrovert",
+              "label": "Extrovert"
+            },
+            {
+              "value": "both",
+              "label": "A bit of both"
+            }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "partnerGender",
+          "heading": "What is your partner gender?",
+          "options": [
+            {
+              "value": "male",
+              "label": "Male"
+            },
+            {
+              "value": "female",
+              "label": "Female"
+            }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "sexRelationshipPriority",
+          "heading": "Do you agree with statement below?",
+          "text": "\"My partner and I make sex a priority in our relationship\"",
+          "options": [
+            {
+              "value": "stronglyAgree",
+              "label": "Strongly agree"
+            },
+            {
+              "value": "agree",
+              "label": "Agree"
+            },
+            {
+              "value": "neutral",
+              "label": "Neutral"
+            },
+            {
+              "value": "disagree",
+              "label": "Disagree"
+            },
+            {
+              "value": "stronglyDisagree",
+              "label": "Strongly disagree"
+            }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "feelingAboutRelationshipGoals",
+          "heading": "When you think about your relationship goals, you feel...?",
+          "options": [
+            {
+              "value": "optimistic",
+              "label": "Optimistic! They are totally doable, with some guidance."
+            },
+            {
+              "value": "cautious",
+              "label": "Cautious. I'v struggled before, but I'm hopeful."
+            },
+            {
+              "value": "anxious",
+              "label": "I'm feeling a little anxious, honestly."
+            }
+          ],
+          "nextBranch": "final"
+        }
+      ]
+    },
+    "final": {
+      "screens": [
+        {
+          "screenType": "selectOne",
+          "field": "discoveryChannel",
+          "heading": "Where did you hear about us?",
+          "options": [
+            {
+              "value": "posterOrBillboard",
+              "label": "Poster or Billboard"
+            },
+            {
+              "value": "friendOrFamily",
+              "label": "Friend or Family"
+            },
+            {
+              "value": "instagram",
+              "label": "Instagram"
+            },
+            {
+              "value": "packageInsert",
+              "label": "Direct or package insert"
+            },
+            {
+              "value": "onlineOrStreamingTv",
+              "label": "Online TV or Streaming TV"
+            },
+            {
+              "value": "tv",
+              "label": "TV"
+            },
+            {
+              "value": "radio",
+              "label": "Radio"
+            },
+            {
+              "value": "searchEngine",
+              "label": "Search Engine (Google, Bing, etc...)"
+            },
+            {
+              "value": "newspaperOrMagazine",
+              "label": "Newspaper or Magazine"
+            },
+            {
+              "value": "facebook",
+              "label": "Facebook"
+            },
+            {
+              "value": "blogPostOrWebsiteReview",
+              "label": "Blog Post or Website Review"
+            },
+            {
+              "value": "podcast",
+              "label": "Podcast"
+            },
+            {
+              "value": "influencer",
+              "label": "Influencer"
+            },
+            {
+              "value": "youtube",
+              "label": "Youtube"
+            },
+            {
+              "value": "pinterest",
+              "label": "Pinterest"
+            },
+            {
+              "value": "other",
+              "label": "Other"
             }
           ]
         }
