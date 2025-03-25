@@ -14,6 +14,8 @@ const Page = async ({ params }: { params: Promise<{ name: string }> }) => {
   const { name } = await params
   const config = await getConfig(name)
 
+  // TODO: Add config validation
+
   return config ? <Questionnaire config={config} /> : <div>Error</div>
 }
 

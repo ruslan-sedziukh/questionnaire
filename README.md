@@ -1,36 +1,376 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run the production server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build && npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run Prettier:
 
-## Learn More
+```bash
+npm run format
+```
 
-To learn more about Next.js, take a look at the following resources:
+## How to add a questionnaire
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To add a new questionnaire, create a new config file in `public/questionnaires`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+That's all you need to do to make it available at the path `questionnaire/config-name` (without the `.json` extension).
 
-## Deploy on Vercel
+## Config
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The config file should be in `.json` format.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+A few things to note:
+- Each config file should have a branch named `index`. This is the first branch that will be used.
+- For a screen with type `info` that has `nextBranch` provided as an object, it is mandatory that the keys of this object match the values of the previous screen.
+- If you want to provide a dynamic value like `{who have children (if have children)}`, use the formula `{fieldName:fieldValue=text you want to render in this case}`. The text will be rendered only when `fieldName` has the value `fieldValue`.
+
+Example:
+```json
+{
+  "name": "main",
+  "branch": {
+    "index": {
+      "screens": [
+        {
+          "screenType": "selectOne",
+          "field": "gender",
+          "heading": "Select your gender:",
+          "options": [
+            { "value": "female", "label": "Female" },
+            { "value": "male", "label": "Male" }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "relationshipStatus",
+          "heading": "So we can get to know you better, tell us about your relationship status.",
+          "options": [
+            { "value": "single", "label": "Single" },
+            { "value": "inRelationship", "label": "In a relationship" }
+          ],
+          "nextBranch": {
+            "single": "single",
+            "inRelationship": "inRelationship"
+          }
+        }
+      ]
+    },
+    "single": {
+      "screens": [
+        {
+          "screenType": "selectOne",
+          "field": "parentStatus",
+          "heading": "Are you a single parent?",
+          "options": [
+            { "value": "withChildren", "label": "Yes" },
+            { "value": "noChildren", "label": "No" }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "feelingInRelationship",
+          "heading": "Single {gender} {parentStatus:withChildren=who have children} need a slightly different approach to find their perfect partner. But first, how did you feel in your last relationship?",
+          "options": [
+            {
+              "value": "unhappyWithLowThings",
+              "label": "I was unhappy with how things were going in my relationship"
+            },
+            {
+              "value": "unhappyWithParts",
+              "label": "I was unhappy with parts of my relationship, but some thing were working"
+            },
+            {
+              "value": "generallyHappy",
+              "label": "I was generally happy with my relationship"
+            },
+            {
+              "value": "neverBeenInRelationship",
+              "label": "I’ve never been in a relationship"
+            }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "tendToOverthink",
+          "heading": "Do you tend to overthink?",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "screenType": "info",
+          "heading": "So how does it work?",
+          "text": "We analyze hundreds of data points to create your unique astrological blueprint. This is combined with AI to tailor-make your astrological insights, based on your answers. We’re going to change your relationship with astrology.",
+          "nextBranch": {
+            "yes": "overthinking",
+            "no": "notOverthinking"
+          }
+        }
+      ]
+    },
+    "overthinking": {
+      "screens": [
+        {
+          "screenType": "selectOne",
+          "field": "priority",
+          "heading": "What is important to you?",
+          "options": [
+            {
+              "value": "success",
+              "label": "Success"
+            },
+            {
+              "value": "romance",
+              "label": "Romance"
+            },
+            {
+              "value": "stability",
+              "label": "Stability"
+            },
+            {
+              "value": "freedom",
+              "label": "Freedom"
+            }
+          ],
+          "nextBranch": "final"
+        }
+      ]
+    },
+    "notOverthinking": {
+      "screens": [
+        {
+          "screenType": "selectOne",
+          "field": "trickyEmotionalControl",
+          "heading": "Is emotional control tricky for you?",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "sometimes",
+              "label": "Sometimes"
+            },
+            {
+              "value": "rarely",
+              "label": "Rarely"
+            },
+            {
+              "value": "no",
+              "label": "Not at all"
+            }
+          ],
+          "nextBranch": "final"
+        }
+      ]
+    },
+    "inRelationship": {
+      "screens": [
+        {
+          "screenType": "selectOne",
+          "field": "parentStatus",
+          "heading": "Are you a parent?",
+          "options": [
+            { "value": "withChildren", "label": "Yes" },
+            { "value": "noChildren", "label": "No" }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "feelingInRelationship",
+          "heading": "{Gender} {parentStatus:withChildren=who have children} need a slightly different approach to improve their relationship. Which statement best describes you?",
+          "options": [
+            {
+              "value": "unhappyWithLowThings",
+              "label": "I'm very unhappy with how things are going in my relationship"
+            },
+            {
+              "value": "unhappyWithParts",
+              "label": "I'm unhappy with parts of my relationship, but some things are working well"
+            },
+            {
+              "value": "generallyHappy",
+              "label": "I'm generally happy in my relationship"
+            }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "partnerIntrovertExtrovert",
+          "heading": "Is your partner introvert or extrovert?",
+          "options": [
+            {
+              "value": "introvert",
+              "label": "Introvert"
+            },
+            {
+              "value": "extrovert",
+              "label": "Extrovert"
+            },
+            {
+              "value": "both",
+              "label": "A bit of both"
+            }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "partnerGender",
+          "heading": "What is your partner gender?",
+          "options": [
+            {
+              "value": "male",
+              "label": "Male"
+            },
+            {
+              "value": "female",
+              "label": "Female"
+            }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "sexRelationshipPriority",
+          "heading": "Do you agree with statement below?",
+          "text": "\"My partner and I make sex a priority in our relationship\"",
+          "options": [
+            {
+              "value": "stronglyAgree",
+              "label": "Strongly agree"
+            },
+            {
+              "value": "agree",
+              "label": "Agree"
+            },
+            {
+              "value": "neutral",
+              "label": "Neutral"
+            },
+            {
+              "value": "disagree",
+              "label": "Disagree"
+            },
+            {
+              "value": "stronglyDisagree",
+              "label": "Strongly disagree"
+            }
+          ]
+        },
+        {
+          "screenType": "selectOne",
+          "field": "feelingAboutRelationshipGoals",
+          "heading": "When you think about your relationship goals, you feel...?",
+          "options": [
+            {
+              "value": "optimistic",
+              "label": "Optimistic! They are totally doable, with some guidance."
+            },
+            {
+              "value": "cautious",
+              "label": "Cautious. I'v struggled before, but I'm hopeful."
+            },
+            {
+              "value": "anxious",
+              "label": "I'm feeling a little anxious, honestly."
+            }
+          ],
+          "nextBranch": "final"
+        }
+      ]
+    },
+    "final": {
+      "screens": [
+        {
+          "screenType": "selectOne",
+          "field": "discoveryChannel",
+          "heading": "Where did you hear about us?",
+          "options": [
+            {
+              "value": "posterOrBillboard",
+              "label": "Poster or Billboard"
+            },
+            {
+              "value": "friendOrFamily",
+              "label": "Friend or Family"
+            },
+            {
+              "value": "instagram",
+              "label": "Instagram"
+            },
+            {
+              "value": "packageInsert",
+              "label": "Direct or package insert"
+            },
+            {
+              "value": "onlineOrStreamingTv",
+              "label": "Online TV or Streaming TV"
+            },
+            {
+              "value": "tv",
+              "label": "TV"
+            },
+            {
+              "value": "radio",
+              "label": "Radio"
+            },
+            {
+              "value": "searchEngine",
+              "label": "Search Engine (Google, Bing, etc...)"
+            },
+            {
+              "value": "newspaperOrMagazine",
+              "label": "Newspaper or Magazine"
+            },
+            {
+              "value": "facebook",
+              "label": "Facebook"
+            },
+            {
+              "value": "blogPostOrWebsiteReview",
+              "label": "Blog Post or Website Review"
+            },
+            {
+              "value": "podcast",
+              "label": "Podcast"
+            },
+            {
+              "value": "influencer",
+              "label": "Influencer"
+            },
+            {
+              "value": "youtube",
+              "label": "Youtube"
+            },
+            {
+              "value": "pinterest",
+              "label": "Pinterest"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+
