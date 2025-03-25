@@ -1,0 +1,45 @@
+import { QuestionnaireDataField } from '@/redux/questionnaireSlice'
+import { QuestionnaireConfig, Screen } from '@/types/questionnaire'
+import { handleError } from '@/utils/handleError'
+
+export const handleNextScreenError = (
+  branchName: string,
+  screenIndex: number
+) => {
+  handleError(
+    'An unexpected error occurred. Please try again later.',
+    `Error with branch "${branchName}". Could not proceed to next from screen ${screenIndex}.`
+  )
+}
+
+export const getNextBranchName = (
+  screenData: Screen,
+  value: QuestionnaireDataField
+): string | undefined => {
+  const next = screenData.nextBranch
+
+  if (next && typeof next === 'object' && typeof value === 'string') {
+    return next[value]
+  } else if (typeof next === 'string') {
+    return next
+  }
+
+  return
+}
+
+export const getPrevScreen = ({
+  config,
+  screenIndex,
+  prevBranchName,
+  branchName,
+}: {
+  config: QuestionnaireConfig
+  screenIndex: number
+  prevBranchName: string
+  branchName: string
+}) =>
+  screenIndex > 0
+    ? config.branch[branchName].screens[screenIndex - 1]
+    : config.branch[prevBranchName].screens[
+        config.branch[prevBranchName].screens.length - 1
+      ]
