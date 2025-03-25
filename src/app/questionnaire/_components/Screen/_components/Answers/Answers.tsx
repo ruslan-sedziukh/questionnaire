@@ -18,7 +18,13 @@ const Answers = ({ screenData, onAnswer }: Props) => {
             key={option.value}
             type="option"
             onClick={() =>
-              onAnswer({ screenData, value: option.value, heading, text })
+              onAnswer({
+                screenData,
+                value: option.value,
+                heading,
+                text,
+                label: option.label,
+              })
             }
           >
             {option.label}

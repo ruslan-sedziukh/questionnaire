@@ -4,6 +4,7 @@ export type QuestionnaireDataFieldValue = string | Date
 
 export type QuestionnaireDataField = {
   value: QuestionnaireDataFieldValue
+  label: string
   heading: string
   text?: string
 }
@@ -30,11 +31,13 @@ const questionnaireSlice = createSlice({
         questionnaireName: string
         field: string
         value: QuestionnaireDataFieldValue
+        label: string
         heading: string
         text?: string
       }>
     ) => {
-      const { questionnaireName, value, heading, text, field } = action.payload
+      const { questionnaireName, value, label, heading, text, field } =
+        action.payload
 
       if (!state[action.payload.questionnaireName]) {
         state[action.payload.questionnaireName] = {}
@@ -44,6 +47,7 @@ const questionnaireSlice = createSlice({
         value,
         heading,
         text,
+        label,
       }
     },
     removeAnswer: (

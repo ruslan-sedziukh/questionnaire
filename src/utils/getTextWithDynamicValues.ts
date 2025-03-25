@@ -35,13 +35,13 @@ export const getTextWithDynamicValues = (
         if (questionnaireData.hasOwnProperty(dataField)) {
           const [condition, replacement] = mapping.split('=')
 
-          if (questionnaireData[dataField] === condition) {
+          if (questionnaireData[dataField].value === condition) {
             replacementValue = replacement
           }
         }
       } else if (questionnaireData.hasOwnProperty(fieldName)) {
         // Convert to string in case Data or other type of fiend was used
-        replacementValue = String(questionnaireData[fieldName])
+        replacementValue = String(questionnaireData[fieldName].value)
       }
 
       // Apply uppercase transformation if needed

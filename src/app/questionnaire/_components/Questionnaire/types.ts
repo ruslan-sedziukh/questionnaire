@@ -6,9 +6,11 @@ export type HandleAnswer = ({
   value,
   heading,
   text,
+  label,
 }: {
   screenData: QuestionScreen
   value: QuestionnaireDataFieldValue
   heading: string
   text?: string
+  label: string
 }) => void

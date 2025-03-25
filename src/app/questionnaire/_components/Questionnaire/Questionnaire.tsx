@@ -5,6 +5,7 @@ import {
   QuestionnaireConfig,
   isQuestionScreen,
   ScreenType,
+  Screen as ScreenData,
 } from '@/types/questionnaire'
 import Screen from '../Screen'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +15,7 @@ import { handleNextScreenError } from './utils'
 import { getNextBranchName } from './utils'
 import { getPrevScreen } from './utils'
 import { HandleAnswer } from './types'
+import Results from '../Results'
 
 const INDEX_BRANCH = 'index'
 
@@ -27,6 +29,7 @@ const Questionnaire = ({ config }: Props) => {
   const [prevBranchNames, setPrevBranchNames] = useState<string[]>([])
   const [branchName, setBranchName] = useState(INDEX_BRANCH)
   const [screenIndex, setScreenIndex] = useState(0)
+  const [showResults, setShowResults] = useState(false)
 
   const dispatch = useDispatch()
   const questionnaireData = useSelector(
@@ -61,8 +64,13 @@ const Questionnaire = ({ config }: Props) => {
     }
   }
 
-  const switchToNextBranch = (nextBranchName: string | undefined) => {
-    if (nextBranchName) {
+  const switchToNextBranch = (
+    screenData: ScreenData,
+    nextBranchName: string | undefined
+  ) => {
+    if (!screenData.nextBranch && !branch.screens[screenIndex + 1]) {
+      setShowResults(true)
+    } else if (nextBranchName) {
       setPrevBranchNames((prev) => [...prev, branchName])
       setBranchName(nextBranchName)
       setScreenIndex(0)
@@ -73,7 +81,13 @@ const Questionnaire = ({ config }: Props) => {
     }
   }
 
-  const handleAnswer: HandleAnswer = ({ screenData, value, heading, text }) => {
+  const handleAnswer: HandleAnswer = ({
+    screenData,
+    value,
+    heading,
+    text,
+    label,
+  }) => {
     dispatch(
       updateAnswer({
         questionnaireName: name,
@@ -81,12 +95,13 @@ const Questionnaire = ({ config }: Props) => {
         value,
         heading,
         text,
+        label,
       })
     )
 
     const nextBranchName = getNextBranchName(screenData, value)
 
-    switchToNextBranch(nextBranchName)
+    switchToNextBranch(screenData, nextBranchName)
   }
 
   const handleNext = () => {
@@ -96,7 +111,11 @@ const Questionnaire = ({ config }: Props) => {
 
     const nextBranchName = getNextBranchName(screen, lastAnswer)
 
-    switchToNextBranch(nextBranchName)
+    switchToNextBranch(screen, nextBranchName)
+  }
+
+  if (showResults) {
+    return <Results questionnaireData={questionnaireData} />
   }
 
   return isQuestionScreen(currentScreen) ? (
