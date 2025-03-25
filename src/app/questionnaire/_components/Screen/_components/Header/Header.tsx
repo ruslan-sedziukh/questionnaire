@@ -3,14 +3,14 @@ import Image from 'next/image'
 
 type Props = {
   showPreviousButton: boolean
-  screenType: ScreenType
   onPreviousScreen?: () => void
+  iconsVariant: 'white' | 'black'
 }
 
 const Header = ({
   showPreviousButton,
-  screenType,
   onPreviousScreen,
+  iconsVariant,
 }: Props) => {
   return (
     <header className="relative flex justify-center w-full max-w-5xl">
@@ -18,7 +18,7 @@ const Header = ({
         <Image
           className="absolute left-0 cursor-pointer"
           src={
-            screenType === ScreenType.Info
+            iconsVariant === 'white'
               ? '/chevron_white.svg'
               : '/chevron_black.svg'
           }
@@ -30,9 +30,7 @@ const Header = ({
       )}
 
       <Image
-        src={
-          screenType === ScreenType.Info ? '/logo_white.svg' : '/logo_black.svg'
-        }
+        src={iconsVariant === 'white' ? '/logo_white.svg' : '/logo_black.svg'}
         width={24}
         height={24}
         alt="logo"

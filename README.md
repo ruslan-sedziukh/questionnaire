@@ -29,11 +29,13 @@ That's all you need to do to make it available at the path `questionnaire/config
 The config file should be in `.json` format.
 
 A few things to note:
+
 - Each config file should have a branch named `index`. This is the first branch that will be used.
 - For a screen with type `info` that has `nextBranch` provided as an object, it is mandatory that the keys of this object match the values of the previous screen.
 - If you want to provide a dynamic value like `{who have children (if have children)}`, use the formula `{fieldName:fieldValue=text you want to render in this case}`. The text will be rendered only when `fieldName` has the value `fieldValue`.
 
 Example:
+
 ```json
 {
   "name": "main",
@@ -372,5 +374,3 @@ Example:
   }
 }
 ```
-
-
