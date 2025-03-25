@@ -11,6 +11,7 @@ import Button from './_components/Button'
 import Header from './_components/Header'
 import Answers from './_components/Answers'
 import { HandleAnswer } from '../Questionnaire/types'
+import { ReactNode } from 'react'
 
 type QuestionScreenProps = {
   screenType: QuestionScreenType
@@ -32,64 +33,34 @@ type InfoScreenProps = {
   questionnaireData: QuestionnaireData
 }
 
-type Props = QuestionScreenProps | InfoScreenProps
+type Props = {
+  render: {
+    header: ReactNode
+    heading: ReactNode
+    text: ReactNode
+    answer: ReactNode
+  }
+  variant: 'light' | 'dark'
+}
 
-const Screen = ({
-  screenType,
-  screenData,
-  onAnswer,
-  onNext,
-  questionnaireData,
-  onPreviousScreen,
-  showPreviousButton,
-}: Props) => {
-  const isInfoScreen = screenType === ScreenType.Info
-
+const Screen = ({ render, variant }: Props) => {
   return (
     <div
       className={twJoin(
         'flex items-center font-open-sans flex-col gap-5 min-h-lvh p-4 min-w-fit',
-        isInfoScreen
+        variant === 'dark'
           ? 'bg-linear-[175deg,#202261_0%,#543C97_55%,#6939A1_70%] text-[#FBFBFF]'
           : 'bg-[#FFF0F0] text-[#333333]'
       )}
     >
-      <Header
-        screenType={screenType}
-        showPreviousButton={showPreviousButton}
-        onPreviousScreen={onPreviousScreen}
-      />
+      {render.header}
 
       <div className="flex items-center font-open-sans flex-col gap-5 w-[330px]">
-        <h1
-          className={twJoin(
-            'inline font-bold text-2xl leading-7',
-            screenData.text && 'text-center'
-          )}
-        >
-          {getTextWithDynamicValues(screenData.heading, questionnaireData)}
-        </h1>
+        {render.heading}
 
-        {screenData.text && (
-          <div
-            className={twJoin(
-              'text-center',
-              isInfoScreen ? 'text-sm font-light' : 'text-lg font-bold'
-            )}
-          >
-            {screenData.text}
-          </div>
-        )}
+        {render.text}
 
-        <div className="flex flex-col gap-5 w-full">
-          {isInfoScreen ? (
-            <Button type="next" onClick={onNext}>
-              Next
-            </Button>
-          ) : (
-            <Answers screenData={screenData} onAnswer={onAnswer} />
-          )}
-        </div>
+        <div className="flex flex-col gap-5 w-full">{render.answer}</div>
       </div>
     </div>
   )

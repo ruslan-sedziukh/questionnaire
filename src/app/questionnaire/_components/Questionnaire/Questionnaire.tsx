@@ -7,7 +7,6 @@ import {
   ScreenType,
   Screen as ScreenData,
 } from '@/types/questionnaire'
-import Screen from '../Screen'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeAnswer, updateAnswer } from '@/redux/questionnaireSlice'
 import { RootState } from '@/redux/store'
@@ -16,6 +15,8 @@ import { getNextBranchName } from './utils'
 import { getPrevScreen } from './utils'
 import { HandleAnswer } from './types'
 import Results from '../Results'
+import QuestionScreen from '../QuestionScreen'
+import InfoScreen from '../InfoScreen'
 
 const INDEX_BRANCH = 'index'
 
@@ -119,8 +120,7 @@ const Questionnaire = ({ config }: Props) => {
   }
 
   return isQuestionScreen(currentScreen) ? (
-    <Screen
-      screenType={currentScreen.screenType}
+    <QuestionScreen
       screenData={currentScreen}
       onAnswer={handleAnswer}
       questionnaireData={questionnaireData}
@@ -128,8 +128,7 @@ const Questionnaire = ({ config }: Props) => {
       showPreviousButton={showPrevButton}
     />
   ) : (
-    <Screen
-      screenType={currentScreen.screenType}
+    <InfoScreen
       screenData={currentScreen}
       questionnaireData={questionnaireData}
       onPreviousScreen={handlePreviousScreen}
