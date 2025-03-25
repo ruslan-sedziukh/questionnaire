@@ -5,6 +5,7 @@ import Header from '../Screen/_components/Header'
 import Heading from '../Screen/_components/Heading'
 import Text from '../Screen/_components/Text'
 import Button from '../Screen/_components/Button'
+import { getTextWithDynamicValues } from '@/utils/getTextWithDynamicValues'
 
 type Props = {
   screenData: InfoScreenData
@@ -31,9 +32,8 @@ const InfoScreen = ({
 
   const heading = (
     <Heading
-      text={screenData.heading}
+      text={getTextWithDynamicValues(screenData.heading, questionnaireData)}
       centered={!!screenData.text}
-      questionnaireData={questionnaireData}
     />
   )
 

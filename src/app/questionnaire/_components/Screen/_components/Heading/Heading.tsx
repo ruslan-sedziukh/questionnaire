@@ -3,12 +3,11 @@ import { getTextWithDynamicValues } from '@/utils/getTextWithDynamicValues'
 import { twJoin } from 'tailwind-merge'
 
 type Props = {
-  questionnaireData: QuestionnaireData
   text: string
   centered: boolean
 }
 
-const Heading = ({ questionnaireData, text, centered = false }: Props) => {
+const Heading = ({ text, centered = false }: Props) => {
   return (
     <h1
       className={twJoin(
@@ -16,7 +15,7 @@ const Heading = ({ questionnaireData, text, centered = false }: Props) => {
         centered && 'text-center'
       )}
     >
-      {getTextWithDynamicValues(text, questionnaireData)}
+      {text}
     </h1>
   )
 }
