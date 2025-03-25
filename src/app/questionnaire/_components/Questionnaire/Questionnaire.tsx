@@ -65,53 +65,11 @@ const Questionnaire = ({ config }: Props) => {
     }
   }
 
-  if (isQuestionScreen(currentScreen)) {
-    const handleAnswer = (
-      screenData: QuestionScreen,
-      value: QuestionnaireDataField
-    ) => {
-      dispatch(updateAnswer({ name, field: screenData.field, value }))
-
-      const nextBranchName = getNextBranchName(screenData, value)
-
-      if (nextBranchName) {
-        setPrevBranchNames((prev) => [...prev, branchName])
-        setBranchName(nextBranchName)
-        setScreenIndex(0)
-      } else if (branch.screens[screenIndex + 1]) {
-        setScreenIndex((prev) => prev + 1)
-      } else {
-        handleNextScreenError(branchName, screenIndex)
-      }
-    }
-
-    return (
-      <Screen
-        screenType={currentScreen.screenType}
-        screenData={currentScreen}
-        onAnswer={handleAnswer}
-        questionnaireData={questionnaireData}
-        onPreviousScreen={handlePreviousScreen}
-        showPreviousButton={showPrevButton}
-      />
-    )
-  }
-
-  const handleNext = () => {
-    if (currentScreen.nextBranch) {
-      const keys = Object.keys(questionnaireData)
-      const lastAnswer = questionnaireData[keys[keys.length - 1]]
-      const screen = branch.screens[screenIndex]
-
-      const nextBranchName = getNextBranchName(screen, lastAnswer)
-
-      if (nextBranchName) {
-        setPrevBranchNames((prev) => [...prev, branchName])
-        setBranchName(nextBranchName)
-        setScreenIndex(0)
-      } else {
-        handleNextScreenError(branchName, screenIndex)
-      }
+  const switchToNextBranch = (nextBranchName: string | undefined) => {
+    if (nextBranchName) {
+      setPrevBranchNames((prev) => [...prev, branchName])
+      setBranchName(nextBranchName)
+      setScreenIndex(0)
     } else if (branch.screens[screenIndex + 1]) {
       setScreenIndex((prev) => prev + 1)
     } else {
@@ -119,7 +77,37 @@ const Questionnaire = ({ config }: Props) => {
     }
   }
 
-  return (
+  const handleAnswer = (
+    screenData: QuestionScreen,
+    value: QuestionnaireDataField
+  ) => {
+    dispatch(updateAnswer({ name, field: screenData.field, value }))
+
+    const nextBranchName = getNextBranchName(screenData, value)
+
+    switchToNextBranch(nextBranchName)
+  }
+
+  const handleNext = () => {
+    const keys = Object.keys(questionnaireData)
+    const lastAnswer = questionnaireData[keys[keys.length - 1]]
+    const screen = branch.screens[screenIndex]
+
+    const nextBranchName = getNextBranchName(screen, lastAnswer)
+
+    switchToNextBranch(nextBranchName)
+  }
+
+  return isQuestionScreen(currentScreen) ? (
+    <Screen
+      screenType={currentScreen.screenType}
+      screenData={currentScreen}
+      onAnswer={handleAnswer}
+      questionnaireData={questionnaireData}
+      onPreviousScreen={handlePreviousScreen}
+      showPreviousButton={showPrevButton}
+    />
+  ) : (
     <Screen
       screenType={currentScreen.screenType}
       screenData={currentScreen}
