@@ -16,6 +16,8 @@ import { RootState } from '@/redux/store'
 import { handleNextScreenError } from './_utils/handleNextScreenError'
 import { getNextBranchName } from './_utils/getNextBranchName'
 
+const INDEX_BRANCH = 'index'
+
 type Props = {
   config: QuestionnaireConfig
 }
@@ -23,30 +25,32 @@ type Props = {
 const Questionnaire = ({ config }: Props) => {
   const { name } = config
 
-  const [branchName, setBranchName] = useState('index')
+  const [prevBranchNames, setPrevBranchNames] = useState<string[]>([])
+  const [branchName, setBranchName] = useState(INDEX_BRANCH)
   const [screenIndex, setScreenIndex] = useState(0)
-
-  const branch = config.branch[branchName]
 
   const dispatch = useDispatch()
   const questionnaireData = useSelector(
     (state: RootState) => state.questionnaire[name]
   )
 
-  const handlePreviousScreen = () => {
-    const prevBranchName = branch.prev
+  const branch = config.branch[branchName]
+  const showPrevButton = screenIndex > 0 || prevBranchNames.length > 0
+  const currentScreen = branch.screens[screenIndex]
 
-    if (screenIndex > -0) {
+  const handlePreviousScreen = () => {
+    const prevBranchName = prevBranchNames[prevBranchNames.length - 1]
+
+    if (screenIndex > 0) {
       setScreenIndex((prev) => prev - 1)
     } else if (prevBranchName) {
       const prevBranch = config.branch[prevBranchName]
 
+      setPrevBranchNames((prev) => prev.slice(0, prev.length - 1))
       setBranchName(prevBranchName)
       setScreenIndex(prevBranch.screens.length - 1)
     }
   }
-
-  const currentScreen = branch.screens[screenIndex]
 
   if (isQuestionScreen(currentScreen)) {
     const handleAnswer = (
@@ -58,6 +62,7 @@ const Questionnaire = ({ config }: Props) => {
       const nextBranchName = getNextBranchName(screenData, value)
 
       if (nextBranchName) {
+        setPrevBranchNames((prev) => [...prev, branchName])
         setBranchName(nextBranchName)
         setScreenIndex(0)
       } else if (branch.screens[screenIndex + 1]) {
@@ -74,7 +79,7 @@ const Questionnaire = ({ config }: Props) => {
         onAnswer={handleAnswer}
         questionnaireData={questionnaireData}
         onPreviousScreen={handlePreviousScreen}
-        showPreviousButton={screenIndex > 0 || !!branch.prev}
+        showPreviousButton={showPrevButton}
       />
     )
   }
@@ -88,6 +93,7 @@ const Questionnaire = ({ config }: Props) => {
       const nextBranchName = getNextBranchName(screen, lastAnswer)
 
       if (nextBranchName) {
+        setPrevBranchNames((prev) => [...prev, branchName])
         setBranchName(nextBranchName)
         setScreenIndex(0)
       } else {
@@ -106,7 +112,7 @@ const Questionnaire = ({ config }: Props) => {
       screenData={currentScreen}
       questionnaireData={questionnaireData}
       onPreviousScreen={handlePreviousScreen}
-      showPreviousButton={screenIndex > 0 || !!branch.prev}
+      showPreviousButton={showPrevButton}
       onNext={handleNext}
     />
   )

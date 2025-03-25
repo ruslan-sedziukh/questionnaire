@@ -28,7 +28,6 @@
       ]
     },
     "single": {
-      "prev": "index",
       "screens": [
         {
           "screenType": "selectOne",
@@ -89,7 +88,6 @@
       ]
     },
     "overthinking": {
-      "prev": "single",
       "screens": [
         {
           "screenType": "selectOne",
@@ -118,7 +116,6 @@
       ]
     },
     "notOverthinking": {
-      "prev": "single",
       "screens": [
         {
           "screenType": "selectOne",
@@ -147,7 +144,6 @@
       ]
     },
     "inRelationship": {
-      "prev": "index",
       "screens": [
         {
           "screenType": "selectOne",
