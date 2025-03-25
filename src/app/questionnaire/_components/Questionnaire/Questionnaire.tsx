@@ -1,11 +1,20 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Question, QuestionnaireConfig } from '@/types/questionnaire'
+import {
+  QuestionnaireConfig,
+  QuestionScreen,
+  isQuestionScreen,
+} from '@/types/questionnaire'
 import Screen from '../Screen'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateAnswer } from '@/redux/questionnaireSlice'
+import {
+  QuestionnaireDataField,
+  updateAnswer,
+} from '@/redux/questionnaireSlice'
 import { RootState } from '@/redux/store'
+import { handleNextScreenError } from './_utils/handleNextScreenError'
+import { getNextBranchName } from './_utils/getNextBranchName'
 
 type Props = {
   config: QuestionnaireConfig
@@ -13,45 +22,92 @@ type Props = {
 
 const Questionnaire = ({ config }: Props) => {
   const { name } = config
-  const [branch, setBranch] = useState(config.branch.index)
-  const [questionIndex, setQuestionIndex] = useState(0)
+
+  const [branchName, setBranchName] = useState('index')
+  const [screenIndex, setScreenIndex] = useState(0)
+
+  const branch = config.branch[branchName]
+
   const dispatch = useDispatch()
   const questionnaireData = useSelector(
     (state: RootState) => state.questionnaire[name]
   )
 
-  const handleAnswer = (question: Question, value: string) => {
-    dispatch(updateAnswer({ name, field: question.field, value }))
-
-    // Set next screen
-    if (question.next) {
-      setBranch(config.branch[question.next[value]])
-      setQuestionIndex(0)
-    } else if (branch.questions[questionIndex + 1]) {
-      setQuestionIndex((prev) => prev + 1)
-    }
-  }
-
-  const handlePreviousQuestion = () => {
+  const handlePreviousScreen = () => {
     const prevBranchName = branch.prev
 
-    if (questionIndex > -0) {
-      setQuestionIndex((prev) => prev - 1)
+    if (screenIndex > -0) {
+      setScreenIndex((prev) => prev - 1)
     } else if (prevBranchName) {
       const prevBranch = config.branch[prevBranchName]
 
-      setBranch(prevBranch)
-      setQuestionIndex(prevBranch.questions.length - 1)
+      setBranchName(prevBranchName)
+      setScreenIndex(prevBranch.screens.length - 1)
+    }
+  }
+
+  const currentScreen = branch.screens[screenIndex]
+
+  if (isQuestionScreen(currentScreen)) {
+    const handleAnswer = (
+      screenData: QuestionScreen,
+      value: QuestionnaireDataField
+    ) => {
+      dispatch(updateAnswer({ name, field: screenData.field, value }))
+
+      const nextBranchName = getNextBranchName(screenData, value)
+
+      if (nextBranchName) {
+        setBranchName(nextBranchName)
+        setScreenIndex(0)
+      } else if (branch.screens[screenIndex + 1]) {
+        setScreenIndex((prev) => prev + 1)
+      } else {
+        handleNextScreenError(branchName, screenIndex)
+      }
+    }
+
+    return (
+      <Screen
+        screenType={currentScreen.screenType}
+        screenData={currentScreen}
+        onAnswer={handleAnswer}
+        questionnaireData={questionnaireData}
+        onPreviousScreen={handlePreviousScreen}
+        showPreviousButton={screenIndex > 0 || !!branch.prev}
+      />
+    )
+  }
+
+  const handleNext = () => {
+    if (currentScreen.nextBranch) {
+      const keys = Object.keys(questionnaireData)
+      const lastAnswer = questionnaireData[keys[keys.length - 1]]
+      const screen = branch.screens[screenIndex]
+
+      const nextBranchName = getNextBranchName(screen, lastAnswer)
+
+      if (nextBranchName) {
+        setBranchName(nextBranchName)
+        setScreenIndex(0)
+      } else {
+        handleNextScreenError(branchName, screenIndex)
+      }
+    } else if (branch.screens[screenIndex + 1]) {
+      setScreenIndex((prev) => prev + 1)
+    } else {
+      handleNextScreenError(branchName, screenIndex)
     }
   }
 
   return (
     <Screen
-      question={branch.questions[questionIndex]}
-      onAnswer={handleAnswer}
+      screenType={currentScreen.screenType}
+      screenData={currentScreen}
       questionnaireData={questionnaireData}
-      onPreviousQuestion={handlePreviousQuestion}
-      showPreviousButton={questionIndex > 0 || !!branch.prev}
+      onPreviousScreen={handlePreviousScreen}
+      showPreviousButton={screenIndex > 0 || !!branch.prev}
+      onNext={handleNext}
     />
   )
 }

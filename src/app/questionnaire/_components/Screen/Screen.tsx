@@ -1,58 +1,97 @@
-import { QuestionnaireData } from '@/redux/questionnaireSlice'
-import { Question } from '@/types/questionnaire'
+import {
+  QuestionnaireData,
+  QuestionnaireDataField,
+} from '@/redux/questionnaireSlice'
+import {
+  InfoScreen,
+  QuestionScreen,
+  QuestionScreenType,
+  ScreenType,
+} from '@/types/questionnaire'
 import { getTextWithDynamicValues } from '@/utils/getTextWithDynamicValues'
-import Image from 'next/image'
+import { twJoin } from 'tailwind-merge'
+import Button from './_components/Button'
+import Header from './_components/Header'
+import Answers from './_components/Answers'
 
-type Props = {
-  question: Question
-  onAnswer: (question: Question, value: string) => void
+type QuestionScreenProps = {
+  screenType: QuestionScreenType
+  screenData: QuestionScreen
+  onAnswer: (screenData: QuestionScreen, value: QuestionnaireDataField) => void
+  onNext?: undefined
   questionnaireData: QuestionnaireData
-  onPreviousQuestion?: () => void
+  onPreviousScreen?: () => void
   showPreviousButton: boolean
 }
 
+type InfoScreenProps = {
+  screenType: ScreenType.Info
+  screenData: InfoScreen
+  onPreviousScreen?: () => void
+  showPreviousButton: boolean
+  onAnswer?: undefined
+  onNext: () => void
+  questionnaireData: QuestionnaireData
+}
+
+type Props = QuestionScreenProps | InfoScreenProps
+
 const Screen = ({
-  question,
+  screenType,
+  screenData,
   onAnswer,
-  questionnaireData: questionnaireData,
-  onPreviousQuestion,
+  onNext,
+  questionnaireData,
+  onPreviousScreen,
   showPreviousButton,
 }: Props) => {
+  const isInfoScreen = screenType === ScreenType.Info
+
   return (
-    <div className="flex items-center font-open-sans flex-col gap-5 bg-[#FFF0F0] min-h-lvh p-4 min-w-fit">
-      <header className="relative flex justify-center w-full max-w-5xl">
-        {showPreviousButton && (
-          <Image
-            className="absolute left-0"
-            src="/chevron.svg"
-            width={24}
-            height={24}
-            alt="chevron"
-            onClick={onPreviousQuestion}
-          />
+    <div
+      className={twJoin(
+        'flex items-center font-open-sans flex-col gap-5 min-h-lvh p-4 min-w-fit',
+        isInfoScreen
+          ? 'bg-linear-[175deg,#202261_0%,#543C97_55%,#6939A1_70%] text-[#FBFBFF]'
+          : 'bg-[#FFF0F0] text-[#333333]'
+      )}
+    >
+      <Header
+        screenType={screenType}
+        showPreviousButton={showPreviousButton}
+        onPreviousScreen={onPreviousScreen}
+      />
+
+      <div className="flex items-center font-open-sans flex-col gap-5 w-[330px]">
+        <h1
+          className={twJoin(
+            'inline font-bold text-2xl leading-7',
+            screenData.text && 'text-center'
+          )}
+        >
+          {getTextWithDynamicValues(screenData.heading, questionnaireData)}
+        </h1>
+
+        {screenData.text && (
+          <div
+            className={twJoin(
+              'text-center',
+              isInfoScreen ? 'text-sm font-light' : 'text-lg font-bold'
+            )}
+          >
+            {screenData.text}
+          </div>
         )}
 
-        <Image src="/logo_black.svg" width={24} height={24} alt="logo" />
-      </header>
-
-      <h1 className="inline font-bold text-2xl leading-7 w-[330px]">
-        {getTextWithDynamicValues(question.text, questionnaireData)}
-      </h1>
-
-      <div className="flex flex-col gap-5 w-[330px]">
-        {question.options.map((option) => (
-          <button
-            className="
-              py-3 px-5 rounded-2xl h-16 text-sm font-normal cursor-pointer
-             bg-[#EAEEF7] border-[1px] border-[#E0E0E0] shadow-[2px_2px_6px_#543C9740] 
-              active:bg-linear-[180deg,#202261_15%,#543C97_50%,#6939A1] active:text-[#FBFBFF]
-            "
-            key={option.value}
-            onClick={() => onAnswer(question, option.value)}
-          >
-            {option.label}
-          </button>
-        ))}
+        <div className="flex flex-col gap-5 w-full">
+          {isInfoScreen ? (
+            <Button type="next" onClick={onNext}>
+              Next
+            </Button>
+          ) : (
+            <Answers screenData={screenData} onAnswer={onAnswer} />
+          )}
+        </div>
       </div>
     </div>
   )

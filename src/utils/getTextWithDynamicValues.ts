@@ -40,7 +40,8 @@ export const getTextWithDynamicValues = (
           }
         }
       } else if (questionnaireData.hasOwnProperty(fieldName)) {
-        replacementValue = questionnaireData[fieldName]
+        // Convert to string in case Data or other type of fiend was used
+        replacementValue = String(questionnaireData[fieldName])
       }
 
       // Apply uppercase transformation if needed
