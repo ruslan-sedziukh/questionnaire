@@ -150,8 +150,8 @@
           "field": "parentStatus",
           "heading": "Are you a parent?",
           "options": [
-            { "value": "parent", "label": "Yes" },
-            { "value": "notParent", "label": "No" }
+            { "value": "withChildren", "label": "Yes" },
+            { "value": "noChildren", "label": "No" }
           ]
         },
         {
