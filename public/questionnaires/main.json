@@ -2,6 +2,7 @@
   "name": "main",
   "branch": {
     "index": {
+      "name": "index",
       "screens": [
         {
           "screenType": "selectOne",
@@ -28,6 +29,7 @@
       ]
     },
     "single": {
+      "name": "single",
       "prev": "index",
       "screens": [
         {
@@ -89,6 +91,7 @@
       ]
     },
     "overthinking": {
+      "name": "overthinking",
       "prev": "single",
       "screens": [
         {
@@ -118,6 +121,7 @@
       ]
     },
     "notOverthinking": {
+      "name": "notOverthinking",
       "prev": "single",
       "screens": [
         {
@@ -147,6 +151,7 @@
       ]
     },
     "inRelationship": {
+      "name": "inRelationship",
       "prev": "index",
       "screens": [
         {
@@ -262,6 +267,7 @@
       ]
     },
     "final": {
+      "name": "final",
       "screens": [
         {
           "screenType": "selectOne",

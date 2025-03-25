@@ -14,6 +14,7 @@ import {
   updateAnswer,
 } from '@/redux/questionnaireSlice'
 import { RootState } from '@/redux/store'
+import { handleNextScreenError } from './_utils/handleNextScreenError'
 
 type Props = {
   config: QuestionnaireConfig
@@ -59,6 +60,8 @@ const Questionnaire = ({ config }: Props) => {
         setScreenIndex(0)
       } else if (branch.screens[screenIndex + 1]) {
         setScreenIndex((prev) => prev + 1)
+      } else {
+        handleNextScreenError(branch.name, screenIndex)
       }
     }
 
@@ -78,7 +81,6 @@ const Questionnaire = ({ config }: Props) => {
     if (currentScreen.nextBranch) {
       const keys = Object.keys(questionnaireData)
       const lastAnswer = questionnaireData[keys[keys.length - 1]]
-
       const screen = branch.screens[screenIndex]
 
       const nextBranchName = getNextBranchName(screen, lastAnswer)
@@ -86,9 +88,13 @@ const Questionnaire = ({ config }: Props) => {
       if (nextBranchName) {
         setBranch(config.branch[nextBranchName])
         setScreenIndex(0)
+      } else {
+        handleNextScreenError(branch.name, screenIndex)
       }
-    } else {
+    } else if (branch.screens[screenIndex + 1]) {
       setScreenIndex((prev) => prev + 1)
+    } else {
+      handleNextScreenError(branch.name, screenIndex)
     }
   }
 

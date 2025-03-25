@@ -50,6 +50,7 @@ export const isQuestionScreen = (screen: Screen): screen is QuestionScreen => {
 export type Screen = QuestionScreen | InfoScreen
 
 export type BranchItem = {
+  name: string
   prev?: string
   screens: Screen[]
 }
