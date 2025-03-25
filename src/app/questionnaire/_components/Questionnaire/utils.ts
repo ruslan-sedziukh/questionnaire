@@ -1,4 +1,4 @@
-import { QuestionnaireDataField } from '@/redux/questionnaireSlice'
+import { QuestionnaireDataFieldValue } from '@/redux/questionnaireSlice'
 import { QuestionnaireConfig, Screen } from '@/types/questionnaire'
 import { handleError } from '@/utils/handleError'
 
@@ -14,7 +14,7 @@ export const handleNextScreenError = (
 
 export const getNextBranchName = (
   screenData: Screen,
-  value: QuestionnaireDataField
+  value: QuestionnaireDataFieldValue
 ): string | undefined => {
   const next = screenData.nextBranch
 

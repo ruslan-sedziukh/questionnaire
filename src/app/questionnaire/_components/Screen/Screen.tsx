@@ -1,7 +1,4 @@
-import {
-  QuestionnaireData,
-  QuestionnaireDataField,
-} from '@/redux/questionnaireSlice'
+import { QuestionnaireData } from '@/redux/questionnaireSlice'
 import {
   InfoScreen,
   QuestionScreen,
@@ -13,11 +10,12 @@ import { twJoin } from 'tailwind-merge'
 import Button from './_components/Button'
 import Header from './_components/Header'
 import Answers from './_components/Answers'
+import { HandleAnswer } from '../Questionnaire/types'
 
 type QuestionScreenProps = {
   screenType: QuestionScreenType
   screenData: QuestionScreen
-  onAnswer: (screenData: QuestionScreen, value: QuestionnaireDataField) => void
+  onAnswer: HandleAnswer
   onNext?: undefined
   questionnaireData: QuestionnaireData
   onPreviousScreen?: () => void

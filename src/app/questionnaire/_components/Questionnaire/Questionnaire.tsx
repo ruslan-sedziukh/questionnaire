@@ -3,21 +3,17 @@
 import React, { useState } from 'react'
 import {
   QuestionnaireConfig,
-  QuestionScreen,
   isQuestionScreen,
   ScreenType,
 } from '@/types/questionnaire'
 import Screen from '../Screen'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  QuestionnaireDataField,
-  removeAnswer,
-  updateAnswer,
-} from '@/redux/questionnaireSlice'
+import { removeAnswer, updateAnswer } from '@/redux/questionnaireSlice'
 import { RootState } from '@/redux/store'
 import { handleNextScreenError } from './utils'
 import { getNextBranchName } from './utils'
 import { getPrevScreen } from './utils'
+import { HandleAnswer } from './types'
 
 const INDEX_BRANCH = 'index'
 
@@ -77,11 +73,16 @@ const Questionnaire = ({ config }: Props) => {
     }
   }
 
-  const handleAnswer = (
-    screenData: QuestionScreen,
-    value: QuestionnaireDataField
-  ) => {
-    dispatch(updateAnswer({ name, field: screenData.field, value }))
+  const handleAnswer: HandleAnswer = ({ screenData, value, heading, text }) => {
+    dispatch(
+      updateAnswer({
+        questionnaireName: name,
+        field: screenData.field,
+        value,
+        heading,
+        text,
+      })
+    )
 
     const nextBranchName = getNextBranchName(screenData, value)
 
@@ -89,8 +90,8 @@ const Questionnaire = ({ config }: Props) => {
   }
 
   const handleNext = () => {
-    const keys = Object.keys(questionnaireData)
-    const lastAnswer = questionnaireData[keys[keys.length - 1]]
+    const questionnaireFields = Object.values(questionnaireData)
+    const lastAnswer = questionnaireFields[questionnaireFields.length - 1].value
     const screen = branch.screens[screenIndex]
 
     const nextBranchName = getNextBranchName(screen, lastAnswer)
