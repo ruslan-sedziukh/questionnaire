@@ -1,24 +1,36 @@
 import { QuestionScreen } from '@/types/questionnaire'
 import Button from '../Button'
-import { QuestionnaireDataField } from '@/redux/questionnaireSlice'
+import { HandleAnswer } from '../../../Questionnaire/types'
 
 type Props = {
   screenData: QuestionScreen
-  onAnswer: (screenData: QuestionScreen, value: QuestionnaireDataField) => void
+  onAnswer: HandleAnswer
 }
 
 const Answers = ({ screenData, onAnswer }: Props) => {
   return (
     <>
-      {screenData.options.map((option) => (
-        <Button
-          key={option.value}
-          type="option"
-          onClick={() => onAnswer(screenData, option.value)}
-        >
-          {option.label}
-        </Button>
-      ))}
+      {screenData.options.map((option) => {
+        const { heading, text } = screenData
+
+        return (
+          <Button
+            key={option.value}
+            type="option"
+            onClick={() =>
+              onAnswer({
+                screenData,
+                value: option.value,
+                heading,
+                text,
+                label: option.label,
+              })
+            }
+          >
+            {option.label}
+          </Button>
+        )
+      })}
     </>
   )
 }
