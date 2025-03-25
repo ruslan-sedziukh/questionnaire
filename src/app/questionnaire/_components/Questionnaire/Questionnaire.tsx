@@ -16,6 +16,8 @@ import { RootState } from '@/redux/store'
 import { handleNextScreenError } from './_utils/handleNextScreenError'
 import { getNextBranchName } from './_utils/getNextBranchName'
 
+const INDEX_BRANCH = 'index'
+
 type Props = {
   config: QuestionnaireConfig
 }
@@ -23,7 +25,7 @@ type Props = {
 const Questionnaire = ({ config }: Props) => {
   const { name } = config
 
-  const [branchName, setBranchName] = useState('index')
+  const [branchName, setBranchName] = useState(INDEX_BRANCH)
   const [screenIndex, setScreenIndex] = useState(0)
 
   const branch = config.branch[branchName]
