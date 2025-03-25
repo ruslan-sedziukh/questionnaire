@@ -5,16 +5,19 @@ import {
   QuestionnaireConfig,
   QuestionScreen,
   isQuestionScreen,
+  ScreenType,
 } from '@/types/questionnaire'
 import Screen from '../Screen'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   QuestionnaireDataField,
+  removeAnswer,
   updateAnswer,
 } from '@/redux/questionnaireSlice'
 import { RootState } from '@/redux/store'
-import { handleNextScreenError } from './_utils/handleNextScreenError'
-import { getNextBranchName } from './_utils/getNextBranchName'
+import { handleNextScreenError } from './utils'
+import { getNextBranchName } from './utils'
+import { getPrevScreen } from './utils'
 
 const INDEX_BRANCH = 'index'
 
@@ -40,6 +43,12 @@ const Questionnaire = ({ config }: Props) => {
 
   const handlePreviousScreen = () => {
     const prevBranchName = prevBranchNames[prevBranchNames.length - 1]
+    const prevScreen = getPrevScreen({
+      config,
+      branchName,
+      prevBranchName,
+      screenIndex,
+    })
 
     if (screenIndex > 0) {
       setScreenIndex((prev) => prev - 1)
@@ -49,6 +58,10 @@ const Questionnaire = ({ config }: Props) => {
       setPrevBranchNames((prev) => prev.slice(0, prev.length - 1))
       setBranchName(prevBranchName)
       setScreenIndex(prevBranch.screens.length - 1)
+    }
+
+    if (prevScreen.screenType !== ScreenType.Info) {
+      dispatch(removeAnswer({ name, field: prevScreen.field }))
     }
   }
 

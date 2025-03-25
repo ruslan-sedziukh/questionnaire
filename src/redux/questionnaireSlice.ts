@@ -32,8 +32,23 @@ const questionnaireSlice = createSlice({
 
       state[action.payload.name][action.payload.field] = action.payload.value
     },
+    removeAnswer: (
+      state,
+      action: PayloadAction<{
+        name: string
+        field: string
+      }>
+    ) => {
+      if (!state[action.payload.name]) {
+        state[action.payload.name] = {}
+
+        return
+      }
+
+      delete state[action.payload.name][action.payload.field]
+    },
   },
 })
 
-export const { updateAnswer } = questionnaireSlice.actions
+export const { updateAnswer, removeAnswer } = questionnaireSlice.actions
 export default questionnaireSlice.reducer
