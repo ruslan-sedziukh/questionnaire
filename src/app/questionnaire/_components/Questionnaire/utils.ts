@@ -37,9 +37,13 @@ export const getPrevScreen = ({
   screenIndex: number
   prevBranchName: string
   branchName: string
-}) =>
-  screenIndex > 0
-    ? config.branch[branchName].screens[screenIndex - 1]
-    : config.branch[prevBranchName].screens[
-        config.branch[prevBranchName].screens.length - 1
-      ]
+}) => {
+  if (screenIndex > 0) {
+    return config.branch[branchName].screens[screenIndex - 1]
+  }
+
+  const prevBranch = config.branch[prevBranchName]
+  const lastPrevBranchScreenIndex = prevBranch.screens.length - 1
+
+  return prevBranch.screens[lastPrevBranchScreenIndex]
+}
