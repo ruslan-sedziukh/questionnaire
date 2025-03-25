@@ -5,6 +5,7 @@ import {
   QuestionnaireConfig,
   QuestionScreen,
   isQuestionScreen,
+  Screen as ScreenData,
 } from '@/types/questionnaire'
 import Screen from '../Screen'
 import { useDispatch, useSelector } from 'react-redux'
@@ -75,8 +76,17 @@ const Questionnaire = ({ config }: Props) => {
 
   const handleNext = () => {
     if (currentScreen.nextBranch) {
-      setBranch(config.branch[currentScreen.nextBranch])
-      setScreenIndex(0)
+      const keys = Object.keys(questionnaireData)
+      const lastAnswer = questionnaireData[keys[keys.length - 1]]
+
+      const screen = branch.screens[screenIndex]
+
+      const nextBranchName = getNextBranchName(screen, lastAnswer)
+
+      if (nextBranchName) {
+        setBranch(config.branch[nextBranchName])
+        setScreenIndex(0)
+      }
     } else {
       setScreenIndex((prev) => prev + 1)
     }
@@ -95,7 +105,7 @@ const Questionnaire = ({ config }: Props) => {
 }
 
 const getNextBranchName = (
-  screenData: QuestionScreen,
+  screenData: ScreenData,
   value: QuestionnaireDataField
 ): string | undefined => {
   const next = screenData.nextBranch
