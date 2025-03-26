@@ -15,6 +15,8 @@ const checkIfEntryIsJSON = async (
   return isFile && isJSON
 }
 
+const getEntryNameWithoutFormat = (entryName: string) => entryName.split('.')[0]
+
 export const getPreBuildPagesNames = async (): Promise<string[]> => {
   const entryNames = await fs.readdir(questionnairesPath)
 
@@ -24,7 +26,7 @@ export const getPreBuildPagesNames = async (): Promise<string[]> => {
     const isJSON = await checkIfEntryIsJSON(questionnairesPath, entryName)
 
     if (isJSON) {
-      files.push(entryName)
+      files.push(getEntryNameWithoutFormat(entryName))
     }
   }
 
